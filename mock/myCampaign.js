@@ -1,0 +1,99 @@
+export const myCampaigns = {
+    "code":0,
+	"inprogress":17,
+	"updates":3,
+	"news":4
+}
+
+export const filterCampaigns = {
+    "code":0,
+    "page_no":1,
+    "total_pages":20,
+    "camps":[{
+        "name":"demo1",
+        "id":1000,
+        "icon":"https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png",
+        "platform":"android",
+        "countries":"IN,CN",
+        "category":"Shopping",
+        "kpi":"soft",
+        "payfor":"CPI",
+        "payout":0.3,
+        "currency":"USD",
+        "daily_cap":1000,
+        "diliveried_cap":200,
+        "created_at":""
+    },{
+        "name":"demo2",
+        "id":1000,
+        "icon":"https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png",
+        "platform":"android",
+        "countries":"IN,CN",
+        "category":"Shopping",
+        "kpi":"soft",
+        "payfor":"CPI",
+        "payout":0.3,
+        "currency":"USD",
+        "daily_cap":1000,
+        "diliveried_cap":200,
+        "created_at":""
+    }]
+}
+
+export const campaignDetails = {
+	"code":0,
+	"detail":{
+		"name":"demo1",
+		"id":1000,
+		"icon":"https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png",
+		"active_time":"2018-03-21 00:23:00",
+		"expire_time":"2018-03-21 00:23:00",
+		"timezone":5.5,
+		"fraud_description":"",
+		"fraud_on":"",
+		"quality_on":"",
+		"quality_description":"",
+		"status":"In-Progress",
+		"targeting":{
+			"countries":"IN,CN",
+			"region":"",
+			"connection_types":"",
+			"carrier":"",
+			"mandatory_did":"",
+			"device_types":"",
+			"device_models":"",
+			"device_makes":"",
+			"os":"android",
+			"osv":""
+		},
+		"category":"Shopping",
+		"kpi":"soft",
+		"payfor":"CPI",
+		"payout":0.3,
+		"currency":"USD",
+		"daily_cap":1000,
+		"diliveried_cap":200,
+		"sub_publisher":"",
+		"creative":{
+			"creative":"http://....",
+			"size":12022
+		},
+		"updates":[{
+			"type":1,
+			"old":"",
+			"new":"",
+			"gmt_update_at":"1212"
+		},{
+			"type":2,
+			"old":"",
+			"new":"",
+			"gmt_update_at":"1212"
+		}]
+	}
+}
+
+export default {
+    myCampaigns,
+    filterCampaigns,
+    campaignDetails
+};
