@@ -183,7 +183,6 @@ class BasicLayout extends React.PureComponent {
 		const {
 			currentUser,
 			collapsed,
-			fetchingNotices,
 			notices,
 			routerData,
 			match,
@@ -202,14 +201,13 @@ class BasicLayout extends React.PureComponent {
 					collapsed={collapsed}
 					location={location}
 					isMobile={this.state.isMobile}
-					onCollapse={this.handleMenuCollapse}
+                    onCollapse={this.handleMenuCollapse}
 				/>
 				<Layout>
 					<Header style={{ padding: 0 }}>
 						<GlobalHeader
 							logo={logo}
 							currentUser={currentUser}
-							fetchingNotices={fetchingNotices}
 							notices={notices}
 							collapsed={collapsed}
 							isMobile={this.state.isMobile}
@@ -284,6 +282,5 @@ class BasicLayout extends React.PureComponent {
 export default connect(({ user, global, loading }) => ({
 	currentUser: user.currentUser,
 	collapsed: global.collapsed,
-	fetchingNotices: loading.effects['global/fetchNotices'],
 	notices: global.notices,
 }))(BasicLayout);

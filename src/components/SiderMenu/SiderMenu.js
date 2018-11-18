@@ -6,7 +6,7 @@ import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
 import { logoDisplay } from '../../utils/logoDisplay';
 
-const { Sider } = Layout;
+const { Header } = Layout;
 const { SubMenu } = Menu;
 
 // Allow menu.js config icon as string or ReactNode
@@ -205,15 +205,7 @@ export default class SiderMenu extends PureComponent {
 			selectedKeys = [openKeys[openKeys.length - 1]];
 		}
 		return (
-			<Sider
-				trigger={null}
-				collapsible
-				collapsed={collapsed}
-				breakpoint="lg"
-				onCollapse={onCollapse}
-				width={256}
-				className={styles.sider}
-			>
+            <Header>
 				<div className={styles.logo} key="logo">
 					{/* 设置router链接 */}
 					<Link to="/">
@@ -225,15 +217,15 @@ export default class SiderMenu extends PureComponent {
 				<Menu
 					key="Menu"
 					theme="dark"
-					mode="inline"
-					{...menuProps}
+					mode="horizontal"
+					// {...menuProps}
 					onOpenChange={this.handleOpenChange}
 					selectedKeys={selectedKeys}
 					style={{ padding: '16px 0', width: '100%' }}
 				>
 					{this.getNavMenuItems(this.menus)}
 				</Menu>
-			</Sider>
+            </Header>
 		);
 	}
 }
