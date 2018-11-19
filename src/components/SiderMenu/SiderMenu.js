@@ -205,15 +205,6 @@ export default class SiderMenu extends PureComponent {
 			selectedKeys = [openKeys[openKeys.length - 1]];
 		}
 		return (
-            <Header>
-				<div className={styles.logo} key="logo">
-					{/* 设置router链接 */}
-					<Link to="/">
-						{logoDisplay('24', 'white')}
-						{/* <img src={logo} alt="logo" /> */}
-						<h1>Test</h1>
-					</Link>
-				</div>
 				<Menu
 					key="Menu"
 					theme="dark"
@@ -221,11 +212,10 @@ export default class SiderMenu extends PureComponent {
 					// {...menuProps}
 					onOpenChange={this.handleOpenChange}
 					selectedKeys={selectedKeys}
-					style={{ padding: '16px 0', width: '100%' }}
+					style={{ height:'64px',lineHeight:'64px',width: '100%' }}
 				>
 					{this.getNavMenuItems(this.menus)}
 				</Menu>
-            </Header>
 		);
 	}
 }

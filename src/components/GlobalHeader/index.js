@@ -8,6 +8,7 @@ import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 import { connect } from 'dva';
+import {logoDisplay} from '../../utils/logoDisplay';
 
 @connect(({ report }) => ({
 	report,
@@ -91,7 +92,8 @@ export default class GlobalHeader extends PureComponent {
 			onNoticeClear,
 			login,
 			report,
-		} = this.props;
+        } = this.props;
+        console.log(isMobile);
 		const menu = (
 			<Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
 				{/* <Menu.Item disabled>
@@ -111,12 +113,14 @@ export default class GlobalHeader extends PureComponent {
 		);
 		return (
 			<div className={styles.header}>
-				{isMobile && [
-					<Link to="/" className={styles.logo} key="logo">
-						<img src={logo} alt="logo" width="32" />
-					</Link>,
-					<Divider type="vertical" key="line" />,
-				]}
+                <div className={styles.logo} key="logo">
+                    {/* 设置router链接 */}
+                    <Link to="/">
+                        {logoDisplay('24', 'white')}
+                        <span style={{color:'white'}}>Test</span>
+                    </Link>
+                </div>
+                {/* {menu} */}
 			</div>
 		);
 	}
