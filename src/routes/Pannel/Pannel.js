@@ -56,6 +56,16 @@ const checkBoxOptions = [
     { label: 'Custom', value: '5' },
 ];
 
+const columnsOptions = [
+    {label:'Count',value:'1'},
+    {label:'Conv',value:'2'},
+    {label:'Delivered',value:'3'},
+    {label:'Fraud',value:'4'},
+    {label:'Kpi',value:'5'},
+    {label:'Clicks',value:'6'},
+    {label:'OutFlow',value:'7'},
+]
+
 const RadioGroup = Radio.Group;
 
 @Form.create()
@@ -76,7 +86,11 @@ export default class DeductionTypeDocPage extends PureComponent {
             start_date: getTimeDistance('month')[0].format('YYYY-MM-DD'),
             end_date: getTimeDistance('month')[1].format('YYYY-MM-DD'),
             rangePickerShow:false,
-            popoverVisible:false
+            popoverVisible:false,
+            allCheckTableColsToShow:['1','2','3','4','5','6','7'],
+            columnPopoverVisible:false,
+
+
 		};
 	}
 
@@ -374,20 +388,27 @@ export default class DeductionTypeDocPage extends PureComponent {
 		}
     };
     
-    changeCheckOpts = (checkedValues) => {
-        this.setState({
-            checkedOptions:checkedValues
-        },function(){
-            if(this.state.checkedOptions.indexOf('5') > -1){
-                this.setState({
-                    rangePickerShow:true
-                })
-            }else{
-                this.setState({
-                    rangePickerShow:false
-                })
-            }
-        })
+
+    changeCheckOpts = (type,checkedValues) => {
+        if(type == 1){
+            this.setState({
+                checkedOptions:checkedValues
+            },function(){
+                if(this.state.checkedOptions.indexOf('5') > -1){
+                    this.setState({
+                        rangePickerShow:true
+                    })
+                }else{
+                    this.setState({
+                        rangePickerShow:false
+                    })
+                }
+            })
+        }else if(type == 2){
+            this.setState({
+                allCheckTableColsToShow:checkedValues
+            })
+        }
     }
 
     selectDefaultRadioOpt = (e) => {
@@ -424,6 +445,20 @@ export default class DeductionTypeDocPage extends PureComponent {
             popoverVisible:visible 
         });
     }
+
+    columnPopoverVisibleChange = (visible) => {
+        this.setState({
+            columnPopoverVisible:visible
+        })
+    }
+
+    judgeIsInCheckbox = value => {
+		if (this.state['allCheckTableColsToShow'].indexOf(value) > -1) {
+			return true;
+		} else {
+			return false;
+		}
+	};
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
@@ -522,7 +557,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 			{
 				title: 'Date',
 				dataIndex: '0',
-				width: '12%',
+				width: 100,
 				render: (text, record) => {
 					if (text) {
 						return (
@@ -574,7 +609,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 						);
 					}
 				},
-				sorter: (a, b) => a[1][1] - b[1][1],
+                sorter: (a, b) => a[1][1] - b[1][1],
+                className: !this.judgeIsInCheckbox('1') ? styles.hidden : '',
             },
             {
 				title: 'Conv',
@@ -613,7 +649,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 						);
 					}
 				},
-				sorter: (a, b) => a[2][1] - b[2][1],
+                sorter: (a, b) => a[2][1] - b[2][1],
+                className: !this.judgeIsInCheckbox('2') ? styles.hidden : '',
             },
             {
 				title: 'Delivered',
@@ -652,7 +689,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 						);
 					}
 				},
-				sorter: (a, b) => a[3][1] - b[3][1],
+                sorter: (a, b) => a[3][1] - b[3][1],
+                className: !this.judgeIsInCheckbox('3') ? styles.hidden : '',
             },
             {
 				title: 'Fraud',
@@ -691,7 +729,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 						);
 					}
 				},
-				sorter: (a, b) => a[4][1] - b[4][1],
+                sorter: (a, b) => a[4][1] - b[4][1],
+                className: !this.judgeIsInCheckbox('4') ? styles.hidden : '',
             },
             {
 				title: 'Kpi',
@@ -730,7 +769,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 						);
 					}
 				},
-				sorter: (a, b) => a[5][1] - b[5][1],
+                sorter: (a, b) => a[5][1] - b[5][1],
+                className: !this.judgeIsInCheckbox('5') ? styles.hidden : '',
             },
             {
 				title: 'Clicks',
@@ -769,7 +809,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 						);
 					}
 				},
-				sorter: (a, b) => a[6][1] - b[6][1],
+                sorter: (a, b) => a[6][1] - b[6][1],
+                className: !this.judgeIsInCheckbox('6') ? styles.hidden : '',
             },
             {
 				title: 'OutFlow',
@@ -808,7 +849,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 						);
 					}
 				},
-				sorter: (a, b) => a[7][1] - b[7][1],
+                sorter: (a, b) => a[7][1] - b[7][1],
+                className: !this.judgeIsInCheckbox('7') ? styles.hidden : '',
             },
             {
                 title: 'Operate',
@@ -830,7 +872,7 @@ export default class DeductionTypeDocPage extends PureComponent {
         const timeRangContent = (
             <div style={{width:280,overflow:'hidden'}} className={styles.optionsWrapper}>
                 <div style={{width:120,float:'left'}}>
-                    <CheckboxGroup options={checkBoxOptions} value={this.state.checkedOptions} onChange={this.changeCheckOpts} />
+                    <CheckboxGroup options={checkBoxOptions} value={this.state.checkedOptions} onChange={this.changeCheckOpts.bind(this,1)} />
                 </div>
                 <div style={{width:30,float:'left'}}>
                     <RadioGroup onChange={this.selectDefaultRadioOpt} value={this.state.defaultRadioOpt}>
@@ -865,6 +907,12 @@ export default class DeductionTypeDocPage extends PureComponent {
             </div>
         );
 
+        const showColumnsContent = (
+            <div style={{width:300}}>
+                <CheckboxGroup options={columnsOptions} value={this.state.allCheckTableColsToShow} onChange={this.changeCheckOpts.bind(this,2)} />
+            </div>
+        )
+
 		return (
 			<div>
 				<PageHeaderLayout />
@@ -883,6 +931,20 @@ export default class DeductionTypeDocPage extends PureComponent {
                                             onVisibleChange={this.popoverVisibleChange}
                                         >
                                             <Button type="primary">Click me</Button>
+                                        </Popover>
+                                    </FormItem>
+                                </Col>
+                                <Col sm={{ span: 12 }} xs={{ span: 24 }}>
+                                    <FormItem label="Columns">
+                                        <Popover
+                                            placement="bottom"
+                                            content={showColumnsContent}
+                                            title="Select Show Columns"
+                                            trigger="click"
+                                            visible={this.state.columnPopoverVisible}
+                                            onVisibleChange={this.columnPopoverVisibleChange}
+                                        >
+                                            <Button type="primary">Select</Button>
                                         </Popover>
                                     </FormItem>
                                 </Col>
