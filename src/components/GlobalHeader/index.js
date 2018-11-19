@@ -93,7 +93,6 @@ export default class GlobalHeader extends PureComponent {
 			login,
 			report,
         } = this.props;
-        console.log(isMobile);
 		const menu = (
 			<Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
 				{/* <Menu.Item disabled>

@@ -374,33 +374,47 @@ export default class DeductionTypeDocPage extends PureComponent {
 						</span>
 					);
 				},
-				dataIndex: 'id',
+                dataIndex: 'id',
+                fixed: 'left',
+                width: 500,
 				render: (value, row, index) => {
 					let labelFilter;
 					const subText = (
-						<span className={styles.pannelHeader}>
-							{row.typeArr && row.typeArr.length
-								? row.typeArr.map((item, ind) => {
-										if (item.selected) {
-											labelFilter = item;
-										}
-										return (
-											<a
-												key={row.id + ind}
-												onClick={this.clickType.bind(this, item, row)}
-												className={
-													item.selected
-														? null
-														: styles.pannelHeaderDefault
-												}
-											>
-												{item.label}
-											</a>
-										);
-								  })
-								: null}
-							{value}
-						</span>
+						<div className={styles.pannelHeader}>
+                            <div className={styles.pannelOperate}
+                                style={row.typeArr && row.typeArr.length == 3 ? {marginLeft:22}:(
+                                    row.typeArr && row.typeArr.length == 2? {marginLeft:22*2}:(
+                                        row.typeArr && row.typeArr.length == 1?{marginLeft:22*3}:{marginLeft:80} )
+                                )}>
+                                {row.typeArr && row.typeArr.length
+                                    ? row.typeArr.map((item, ind) => {
+                                            if (item.selected) {
+                                                labelFilter = item;
+                                            }
+                                            return (
+                                                <a
+                                                    key={row.id + ind}
+                                                    onClick={this.clickType.bind(this, item, row)}
+                                                    className={
+                                                        item.selected
+                                                            ? null
+                                                            : styles.pannelHeaderDefault
+                                                    }
+                                                >
+                                                    {item.label}
+                                                </a>
+                                            );
+                                    })
+                                    : <a style={{visibility:'hidden'}}>1</a>}
+                            </div>
+                            <div  className={styles.headImgAllWrapper}>
+                                <img style={{width:30,height:30}} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
+                                <div className={styles.headTitleWrapper}>   
+                                    <span>{`${value}-${row.name}`}</span>
+                                    <span>{`${row.startDate}-${row.endDate}`}</span>
+                                </div>
+                            </div>
+						</div>
 					);
 					if (row.children) {
 						const content = (
@@ -414,17 +428,17 @@ export default class DeductionTypeDocPage extends PureComponent {
 							</div>
 						);
 						return (
-							<span className={styles.imitateWrapper}>
+							<span className={styles.imitateWrapper} style={{width:450}}>
 								<Popover content={content} trigger="click">
 									<Icon type="filter" style={{ cursor: 'pointer' }} />
 								</Popover>
-								<p style={{ display: 'inline-block' }}>{subText}</p>
+								<div style={{ display: 'inline-block' }}>{subText}</div>
 							</span>
 						);
 					} else {
 						return (
 							<span className={styles.imitateWrapper}>
-								<p style={{ display: 'inline-block' }}>{subText}</p>
+								<div style={{ display: 'inline-block' }}>{subText}</div>
 							</span>
 						);
 					}
@@ -451,7 +465,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 			{
 				title: 'Count',
 				dataIndex: '1',
-				width: '30%',
+				width: 100,
 				render: (text, record) => {
 					if (record.children) {
 						return (
@@ -486,7 +500,250 @@ export default class DeductionTypeDocPage extends PureComponent {
 					}
 				},
 				sorter: (a, b) => a[1][1] - b[1][1],
-			},
+            },
+            {
+				title: 'Conv',
+				dataIndex: '2',
+				width: 100,
+				render: (text, record) => {
+					if (record.children) {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									if (index == 1) {
+										return (
+											<p className={styles.sortStyle} key={item + index}>
+												{item}
+												<a onClick={this.clickToAsc.bind(this, record)}>
+													asc
+												</a>
+												<a onClick={this.clickToDesc.bind(this, record)}>
+													desc
+												</a>
+											</p>
+										);
+									} else {
+										return <p key={item + index}>{item}</p>;
+									}
+								})}
+							</span>
+						);
+					} else {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									return <p key={item + index}>{item}</p>;
+								})}
+							</span>
+						);
+					}
+				},
+				sorter: (a, b) => a[2][1] - b[2][1],
+            },
+            {
+				title: 'Delivered',
+				dataIndex: '3',
+				width: 100,
+				render: (text, record) => {
+					if (record.children) {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									if (index == 1) {
+										return (
+											<p className={styles.sortStyle} key={item + index}>
+												{item}
+												<a onClick={this.clickToAsc.bind(this, record)}>
+													asc
+												</a>
+												<a onClick={this.clickToDesc.bind(this, record)}>
+													desc
+												</a>
+											</p>
+										);
+									} else {
+										return <p key={item + index}>{item}</p>;
+									}
+								})}
+							</span>
+						);
+					} else {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									return <p key={item + index}>{item}</p>;
+								})}
+							</span>
+						);
+					}
+				},
+				sorter: (a, b) => a[3][1] - b[3][1],
+            },
+            {
+				title: 'Fraud',
+				dataIndex: '4',
+				width: 100,
+				render: (text, record) => {
+					if (record.children) {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									if (index == 1) {
+										return (
+											<p className={styles.sortStyle} key={item + index}>
+												{item}
+												<a onClick={this.clickToAsc.bind(this, record)}>
+													asc
+												</a>
+												<a onClick={this.clickToDesc.bind(this, record)}>
+													desc
+												</a>
+											</p>
+										);
+									} else {
+										return <p key={item + index}>{item}</p>;
+									}
+								})}
+							</span>
+						);
+					} else {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									return <p key={item + index}>{item}</p>;
+								})}
+							</span>
+						);
+					}
+				},
+				sorter: (a, b) => a[4][1] - b[4][1],
+            },
+            {
+				title: 'Kpi',
+				dataIndex: '5',
+				width: 100,
+				render: (text, record) => {
+					if (record.children) {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									if (index == 1) {
+										return (
+											<p className={styles.sortStyle} key={item + index}>
+												{item}
+												<a onClick={this.clickToAsc.bind(this, record)}>
+													asc
+												</a>
+												<a onClick={this.clickToDesc.bind(this, record)}>
+													desc
+												</a>
+											</p>
+										);
+									} else {
+										return <p key={item + index}>{item}</p>;
+									}
+								})}
+							</span>
+						);
+					} else {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									return <p key={item + index}>{item}</p>;
+								})}
+							</span>
+						);
+					}
+				},
+				sorter: (a, b) => a[5][1] - b[5][1],
+            },
+            {
+				title: 'Clicks',
+				dataIndex: '6',
+				width: 100,
+				render: (text, record) => {
+					if (record.children) {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									if (index == 1) {
+										return (
+											<p className={styles.sortStyle} key={item + index}>
+												{item}
+												<a onClick={this.clickToAsc.bind(this, record)}>
+													asc
+												</a>
+												<a onClick={this.clickToDesc.bind(this, record)}>
+													desc
+												</a>
+											</p>
+										);
+									} else {
+										return <p key={item + index}>{item}</p>;
+									}
+								})}
+							</span>
+						);
+					} else {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									return <p key={item + index}>{item}</p>;
+								})}
+							</span>
+						);
+					}
+				},
+				sorter: (a, b) => a[6][1] - b[6][1],
+            },
+            {
+				title: 'OutFlow',
+				dataIndex: '7',
+				width: 100,
+				render: (text, record) => {
+					if (record.children) {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									if (index == 1) {
+										return (
+											<p className={styles.sortStyle} key={item + index}>
+												{item}
+												<a onClick={this.clickToAsc.bind(this, record)}>
+													asc
+												</a>
+												<a onClick={this.clickToDesc.bind(this, record)}>
+													desc
+												</a>
+											</p>
+										);
+									} else {
+										return <p key={item + index}>{item}</p>;
+									}
+								})}
+							</span>
+						);
+					} else {
+						return (
+							<span className={styles.imitateWrapper}>
+								{text.map((item, index) => {
+									return <p key={item + index}>{item}</p>;
+								})}
+							</span>
+						);
+					}
+				},
+				sorter: (a, b) => a[7][1] - b[7][1],
+            },
+            {
+                title: 'Operate',
+				dataIndex: '',
+                width: 100,
+                fixed: 'right',
+				render: (text, record) => {
+                    return <a>Operate</a>
+                }
+            }
 		];
 		return (
 			<div>
@@ -494,6 +751,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 				<Card bordered={false} style={{ marginTop: 30 }}>
 					<div className={styles.pannelTableWrapper}>
 						<Table
+                            scroll={{ x: 1500, y: 400 }}
 							rowKey="uniqueKey"
 							columns={columns}
 							dataSource={dataList}

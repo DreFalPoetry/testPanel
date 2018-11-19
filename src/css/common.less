@@ -30,18 +30,6 @@
 	padding: 0px;
 }
 
-.billingTableWrapper {
-	:global(.ant-table-footer) {
-		padding: 10px;
-		p {
-			margin-bottom: 0px;
-		}
-	}
-	:global(.ant-table-small.ant-table-bordered .ant-table-footer) {
-		border-right: 0px;
-	}
-}
-
 :global(.ant-table-small
 		> .ant-table-content
 		> .ant-table-body
@@ -129,28 +117,51 @@
 :global(.ant-table-bordered .ant-table-thead > tr:last-child > th) {
 	background: #fafafa;
 }
+
+:global(.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr > td){
+    padding: 0px;
+}
+
+:global(.ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-header > table > .ant-table-thead > tr > th){
+    padding: 0px;
+}
+
+:global(.ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-tbody > tr > td){
+    padding: 0px;
+}
+
 .pannelHeader {
+    width: 450px;
 	a {
 		margin-right: 10px;
 	}
+}
+.pannelOperate{
+    float: left;
+}
+.headImgAllWrapper{
+    float: left;
+    width: 250px;
+    overflow: hidden;
+    img{
+        float: left;
+    }
+    .headTitleWrapper{
+        float: left;
+        max-width: 200px;
+        span{
+            display: inline-block;
+            white-space:nowrap;
+        }
+    }
 }
 .pannelHeaderDefault {
 	color: #333333;
 }
 .pannelTableWrapper {
-	// :global(.ant-table-row-indent){
-	//     float: left;
-	// }
-	:global(.ant-table-small
-			> .ant-table-content
-			> .ant-table-body
-			> table
-			> .ant-table-tbody
-			> tr
-			> td, ) {
-		padding: 0px;
-	}
 	.imitateWrapper {
+        display: block;
+        overflow: hidden;
 		p {
 			border-bottom: 1px solid #e8e8e8;
 			margin-bottom: 0px;
