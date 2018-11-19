@@ -30,7 +30,7 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { getDate, getTheFirstDay, deepCloneObj } from '../../utils/commonFunc';
-import styles from '../Report/report.less';
+import styles from '../../css/common.less';
 import { getMonth } from 'date-fns';
 import {
 	queryPannel,
