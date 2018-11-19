@@ -679,7 +679,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 								})}
 							</span>
 						);
-					} else {
+					} else { 
 						return (
 							<span className={styles.imitateWrapper}>
 								{text.map((item, index) => {
