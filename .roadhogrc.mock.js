@@ -17,7 +17,9 @@ import {
 import { myCampaigns, filterCampaigns, campaignDetails } from './mock/myCampaign';
 import { reportList } from './mock/report';
 import {
-	filterPannels,
+    filterPannels,
+    filterPannelsType1,
+    filterPannelsType2,
 	filterFirstPannel,
 	filterSecondPannel,
 	filterThirdPannel,
@@ -213,9 +215,34 @@ const proxy = {
 	'GET /pub/campaigns/detail': campaignDetails,
 	'GET /pub/report': reportList,
 	'GET /pannel/list': filterPannels,
+	'GET /pannel/list1': filterPannelsType1,
+    'GET /pannel/list2':filterPannelsType2, 
+    //  mockjs.mock({
+    //     'code':0,
+    //     'campaigns|4': [{
+    //         startDate:'2018/11/01',
+    //         endDate:'2018/11/31',
+    //         'id|+1':1001, 
+    //         name: 'Facebook-API-P121',
+    //         0: ['today', 'ysetoday', 'OneWeek'],
+    //         1: [10, 20, 30],
+    //         2:[70,80,200],
+    //         3:[70,80,200],
+    //         4:[70,80,200],
+    //         5:[70,80,200],
+    //         6:[70,80,200],
+    //         7:[70,80,200],
+    //     }],
+    // }),
 	'GET /pannel/listOne': filterFirstPannel,
+	// 'GET /pannel/listOne1': filterFirstPannelType1,
+	// 'GET /pannel/listOne2': filterFirstPannelType2,
 	'GET /pannel/listTwo': filterSecondPannel,
+	// 'GET /pannel/listTwo1': filterSecondPannelType1,
+	// 'GET /pannel/listTwo2': filterSecondPannelType2,
 	'GET /pannel/listThree': filterThirdPannel,
+	// 'GET /pannel/listThree1': filterThirdPannelType1,
+	// 'GET /pannel/listThree2': filterThirdPannelType2,
 
 	//   'GET /api/testMock':mockjs.mock({'data|100':['id|+1':1,]})
 };

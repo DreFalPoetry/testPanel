@@ -26,10 +26,13 @@ import {
 	Switch,
 	Alert,
 	Tag,
-	Popover,
+    Popover,
+    Checkbox,
+    Radio
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { getDate, getTheFirstDay, deepCloneObj } from '../../utils/commonFunc';
+import {getTimeDistance} from '../../utils/utils';
 import styles from '../../css/common.less';
 import { getMonth } from 'date-fns';
 import {
@@ -43,6 +46,17 @@ const { Search } = Input;
 const { Option } = Select;
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const FormItem = Form.Item;
+const CheckboxGroup = Checkbox.Group;
+
+const checkBoxOptions = [
+    { label: 'Today', value: '1' },
+    { label: 'Yestoday', value: '2' },
+    { label: 'OneWeek', value: '3' },
+    { label: 'OneMonth', value: '4' },
+    { label: 'Custom', value: '5' },
+];
+
+const RadioGroup = Radio.Group;
 
 @Form.create()
 export default class DeductionTypeDocPage extends PureComponent {
@@ -56,7 +70,13 @@ export default class DeductionTypeDocPage extends PureComponent {
 				{ type: 2, label: 'G.', selected: false },
 				{ type: 3, label: 'P.', selected: false },
 				{ type: 4, label: 'Sp.', selected: false },
-			],
+            ],
+            checkedOptions:['1','2','3'],
+            defaultRadioOpt:1,
+            start_date: getTimeDistance('month')[0].format('YYYY-MM-DD'),
+            end_date: getTimeDistance('month')[1].format('YYYY-MM-DD'),
+            rangePickerShow:false,
+            popoverVisible:false
 		};
 	}
 
@@ -105,8 +125,12 @@ export default class DeductionTypeDocPage extends PureComponent {
 		}
 	};
 
-	fetchList = type => {
-		const response = queryPannel();
+    /**
+     * @param type:要展示的为哪种类型
+     * @param showLines:要展示的是那几个时间段的数据
+     */
+	fetchList = (type,showLines) => {
+		const response = queryPannel(showLines);
 		response.then(json => {
 			this.setState({
 				loading: false,
@@ -348,7 +372,58 @@ export default class DeductionTypeDocPage extends PureComponent {
 		} else {
 			this.asyncDataList(tempRecord, tempCompleteChild);
 		}
-	};
+    };
+    
+    changeCheckOpts = (checkedValues) => {
+        this.setState({
+            checkedOptions:checkedValues
+        },function(){
+            if(this.state.checkedOptions.indexOf('5') > -1){
+                this.setState({
+                    rangePickerShow:true
+                })
+            }else{
+                this.setState({
+                    rangePickerShow:false
+                })
+            }
+        })
+    }
+
+    selectDefaultRadioOpt = (e) => {
+        this.setState({
+            defaultRadioOpt:e.target.value
+        })
+    }
+
+    dateRangeChange = (date, dateString) => {
+        this.setState({
+            start_date: dateString[0], 
+            end_date: dateString[1]
+        })
+    }
+
+    sureChooseTheseOpts = () => {
+        console.log(this.state.defaultRadioOpt);//依照哪个时间维度来排序
+        console.log(this.state.checkedOptions);//选择了需要展示的时间维度
+        this.setState({
+            popoverVisible:false
+        },function(){
+            if(this.state.checkedOptions.length == 2){
+                this.fetchList(1,1)
+            }else if(this.state.checkedOptions.length == 1){
+                this.fetchList(1,2);
+            }else{
+                this.fetchList(1)
+            }
+        })
+    }
+
+    popoverVisibleChange = (visible) => {
+        this.setState({
+            popoverVisible:visible 
+        });
+    }
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
@@ -376,7 +451,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 				},
                 dataIndex: 'id',
                 fixed: 'left',
-                width: 500,
+                width: 520,
 				render: (value, row, index) => {
 					let labelFilter;
 					const subText = (
@@ -408,8 +483,8 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     : <a style={{visibility:'hidden'}}>1</a>}
                             </div>
                             <div  className={styles.headImgAllWrapper}>
-                                <img style={{width:30,height:30}} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
-                                <div className={styles.headTitleWrapper}>   
+                                <img style={row[0].length && row[0].length>1?{width:30,height:30}:{width:15,height:15}} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
+                                <div className={row[0].length && row[0].length>1?styles.headTitleWrapper:styles.headTitleWrapperTwo}>   
                                     <span>{`${value}-${row.name}`}</span>
                                     <span>{`${row.startDate}-${row.endDate}`}</span>
                                 </div>
@@ -744,12 +819,75 @@ export default class DeductionTypeDocPage extends PureComponent {
                     return <a>Operate</a>
                 }
             }
-		];
+        ];
+
+        const radioStyle = {
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px',
+        };
+        
+        const timeRangContent = (
+            <div style={{width:280,overflow:'hidden'}} className={styles.optionsWrapper}>
+                <div style={{width:120,float:'left'}}>
+                    <CheckboxGroup options={checkBoxOptions} value={this.state.checkedOptions} onChange={this.changeCheckOpts} />
+                </div>
+                <div style={{width:30,float:'left'}}>
+                    <RadioGroup onChange={this.selectDefaultRadioOpt} value={this.state.defaultRadioOpt}>
+                        <Radio style={radioStyle} value={1}></Radio>
+                        <Radio style={radioStyle} value={2}></Radio>
+                        <Radio style={radioStyle} value={3}></Radio>
+                        <Radio style={radioStyle} value={4}></Radio>
+                        <Radio style={radioStyle} value={5}></Radio>
+                    </RadioGroup>
+                </div>
+                {
+                    this.state.rangePickerShow?(
+                        <RangePicker
+                            allowClear={false}
+                            onChange={this.dateRangeChange}
+                            value={
+                                [
+                                    moment(
+                                        this.state.start_date
+                                    ),
+                                    moment(
+                                        this.state.end_date
+                                    ),
+                                ]
+                            }
+                        />
+                    ):null
+                }
+                <div style={{width:280,borderTop:'1px solid #e6e6e6',float:'left',textAlign:'right'}}>
+                    <Button style={{marginTop:10}} onClick={this.sureChooseTheseOpts}>Sure</Button>
+                </div>
+            </div>
+        );
+
 		return (
 			<div>
 				<PageHeaderLayout />
 				<Card bordered={false} style={{ marginTop: 30 }}>
 					<div className={styles.pannelTableWrapper}>
+                        <Form layout="inline" onSubmit={this.submitSearch}>
+                            <Row>
+                                <Col sm={{ span: 12 }} xs={{ span: 24 }}>
+                                    <FormItem label="Date">
+                                        <Popover
+                                            placement="bottom"
+                                            content={timeRangContent}
+                                            title="Select Time"
+                                            trigger="click"
+                                            visible={this.state.popoverVisible}
+                                            onVisibleChange={this.popoverVisibleChange}
+                                        >
+                                            <Button type="primary">Click me</Button>
+                                        </Popover>
+                                    </FormItem>
+                                </Col>
+                            </Row>
+                        </Form>
 						<Table
                             scroll={{ x: 1500, y: 400 }}
 							rowKey="uniqueKey"

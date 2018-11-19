@@ -154,6 +154,13 @@
             white-space:nowrap;
         }
     }
+    .headTitleWrapperTwo{
+        float: left;
+        max-width: 200px;
+        span{
+            white-space:nowrap;
+        }
+    }
 }
 .pannelHeaderDefault {
 	color: #333333;
@@ -171,8 +178,17 @@
 				border: none;
 			}
 		}
-	}
+    }   
 }
+
+.optionsWrapper{
+    :global(.ant-checkbox-group-item){
+        display: block;
+        height: 30px;
+        line-height: 30px;
+    }
+}
+
 .sortStyle {
 	a {
 		margin-left: 10px;

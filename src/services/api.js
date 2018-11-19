@@ -149,8 +149,12 @@ export async function queryBilling(params) {
 	return request(`/pub/dash/billing?${stringify(params)}`);
 }
 
-export async function queryPannel() {
-	return requestMock(`/pannel/list`);
+export async function queryPannel(type) {
+    if(!type){
+	    return requestMock(`/pannel/list`);
+    }else{
+        return requestMock(`/pannel/list`+type); 
+    }
 }
 
 export async function filterFirstPannel() {
