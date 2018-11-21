@@ -41,7 +41,22 @@ import {
 	filterSecondPannel,
 	filterThirdPannel,
 } from '../../services/api';
-//ranAdd
+import { Resizable } from 'react-resizable';
+
+const ResizeableTitle = (props) => {
+    const { onResize, width, ...restProps } = props;
+  
+    if (!width) {
+      return <th {...restProps} />;
+    }
+  
+    return (
+      <Resizable width={width} height={0} onResize={onResize}>
+        <th {...restProps} />
+      </Resizable>
+    );
+};
+
 const { Search } = Input;
 const { Option } = Select;
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
@@ -73,7 +88,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataList: [],
+            dataList: [],
 			loading: true,
 			headerTypeArr: [
 				{ type: 1, label: 'C.', selected: true },
@@ -89,13 +104,420 @@ export default class DeductionTypeDocPage extends PureComponent {
             popoverVisible:false,
             allCheckTableColsToShow:['1','2','3','4','5','6','7'],
             columnPopoverVisible:false,
-
-
+            columns:[
+                {
+                    title: () => {
+                        return (
+                            <span className={styles.pannelHeader}>
+                                {this.state.headerTypeArr.map((item, index) => {
+                                    return (
+                                        <a
+                                            key={'headerTypeArr' + index}
+                                            onClick={this.clickType.bind(this, item, null)}
+                                            className={
+                                                item.selected ? null : styles.pannelHeaderDefault
+                                            }
+                                        >
+                                            {item.label}
+                                        </a>
+                                    );
+                                })}
+                            </span>
+                        );
+                    },
+                    dataIndex: 'id',
+                    fixed: 'left',
+                    width: 520,
+                    render: (value, row, index) => {
+                        let labelFilter;
+                        const subText = (
+                            <div className={styles.pannelHeader}>
+                                <div className={styles.pannelOperate}
+                                    style={row.typeArr && row.typeArr.length == 3 ? {marginLeft:22}:(
+                                        row.typeArr && row.typeArr.length == 2? {marginLeft:22*2}:(
+                                            row.typeArr && row.typeArr.length == 1?{marginLeft:22*3}:{marginLeft:80} )
+                                    )}>
+                                    {row.typeArr && row.typeArr.length
+                                        ? row.typeArr.map((item, ind) => {
+                                                if (item.selected) {
+                                                    labelFilter = item;
+                                                }
+                                                return (
+                                                    <a
+                                                        key={row.id + ind}
+                                                        onClick={this.clickType.bind(this, item, row)}
+                                                        className={
+                                                            item.selected
+                                                                ? null
+                                                                : styles.pannelHeaderDefault
+                                                        }
+                                                    >
+                                                        {item.label}
+                                                    </a>
+                                                );
+                                        })
+                                        : <a style={{visibility:'hidden'}}>1</a>}
+                                </div>
+                                <div  className={styles.headImgAllWrapper}>
+                                    <img style={row[0].length && row[0].length>1?{width:30,height:30}:{width:15,height:15}} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
+                                    <div className={row[0].length && row[0].length>1?styles.headTitleWrapper:styles.headTitleWrapperTwo}>   
+                                        <span>{`${value}-${row.name}`}</span>
+                                        <span>{`${row.startDate}-${row.endDate}`}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                        if (row.children) {
+                            const content = (
+                                <div>
+                                    <label>{labelFilter.label}：</label>
+                                    <Search
+                                        placeholder="input search text"
+                                        onSearch={this.filterList.bind(this, row, labelFilter.type)}
+                                        style={{ width: 120 }}
+                                    />
+                                </div>
+                            );
+                            return (
+                                <span className={styles.imitateWrapper} style={{width:450}}>
+                                    <Popover content={content} trigger="click">
+                                        <Icon type="filter" style={{ cursor: 'pointer' }} />
+                                    </Popover>
+                                    <div style={{ display: 'inline-block' }}>{subText}</div>
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    <div style={{ display: 'inline-block' }}>{subText}</div>
+                                </span>
+                            );
+                        }
+                    },
+                },
+                {
+                    title: 'Date',
+                    dataIndex: '0',
+                    width: 100,
+                    render: (text, record) => {
+                        if (text) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        } else {
+                            return '';
+                        }
+                    },
+                },
+                {
+                    title: 'Count',
+                    dataIndex: '1',
+                    width: 100,
+                    render: (text, record) => {
+                        if (record.children) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        if (index == 1) {
+                                            return (
+                                                <p className={styles.sortStyle} key={item + index}>
+                                                    {item}
+                                                    <a onClick={this.clickToAsc.bind(this, record)}>
+                                                        asc
+                                                    </a>
+                                                    <a onClick={this.clickToDesc.bind(this, record)}>
+                                                        desc
+                                                    </a>
+                                                </p>
+                                            );
+                                        } else {
+                                            return <p key={item + index}>{item}</p>;
+                                        }
+                                    })}
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        }
+                    },
+                    isDynamic:true
+                    // className: !this.judgeIsInCheckbox('1') ? styles.hidden : '',
+                },
+                {
+                    title: 'Conv',
+                    dataIndex: '2',
+                    width: 100,
+                    render: (text, record) => {
+                        if (record.children) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        if (index == 1) {
+                                            return (
+                                                <p className={styles.sortStyle} key={item + index}>
+                                                    {item}
+                                                    <a onClick={this.clickToAsc.bind(this, record)}>
+                                                        asc
+                                                    </a>
+                                                    <a onClick={this.clickToDesc.bind(this, record)}>
+                                                        desc
+                                                    </a>
+                                                </p>
+                                            );
+                                        } else {
+                                            return <p key={item + index}>{item}</p>;
+                                        }
+                                    })}
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        }
+                    },
+                    isDynamic:true
+                    // className: !this.judgeIsInCheckbox('2') ? styles.hidden : '',
+                },
+                {
+                    title: 'Delivered',
+                    dataIndex: '3',
+                    width: 100,
+                    render: (text, record) => {
+                        if (record.children) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        if (index == 1) {
+                                            return (
+                                                <p className={styles.sortStyle} key={item + index}>
+                                                    {item}
+                                                    <a onClick={this.clickToAsc.bind(this, record)}>
+                                                        asc
+                                                    </a>
+                                                    <a onClick={this.clickToDesc.bind(this, record)}>
+                                                        desc
+                                                    </a>
+                                                </p>
+                                            );
+                                        } else {
+                                            return <p key={item + index}>{item}</p>;
+                                        }
+                                    })}
+                                </span>
+                            );
+                        } else { 
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        }
+                    },
+                    isDynamic:true
+                    // className: !this.judgeIsInCheckbox('3') ? styles.hidden : '',
+                },
+                {
+                    title: 'Fraud',
+                    dataIndex: '4',
+                    width: 100,
+                    render: (text, record) => {
+                        if (record.children) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        if (index == 1) {
+                                            return (
+                                                <p className={styles.sortStyle} key={item + index}>
+                                                    {item}
+                                                    <a onClick={this.clickToAsc.bind(this, record)}>
+                                                        asc
+                                                    </a>
+                                                    <a onClick={this.clickToDesc.bind(this, record)}>
+                                                        desc
+                                                    </a>
+                                                </p>
+                                            );
+                                        } else {
+                                            return <p key={item + index}>{item}</p>;
+                                        }
+                                    })}
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        }
+                    },
+                    isDynamic:true
+                    // className: !this.judgeIsInCheckbox('4') ? styles.hidden : '',
+                },
+                {
+                    title: 'Kpi',
+                    dataIndex: '5',
+                    width: 100,
+                    render: (text, record) => {
+                        if (record.children) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        if (index == 1) {
+                                            return (
+                                                <p className={styles.sortStyle} key={item + index}>
+                                                    {item}
+                                                    <a onClick={this.clickToAsc.bind(this, record)}>
+                                                        asc
+                                                    </a>
+                                                    <a onClick={this.clickToDesc.bind(this, record)}>
+                                                        desc
+                                                    </a>
+                                                </p>
+                                            );
+                                        } else {
+                                            return <p key={item + index}>{item}</p>;
+                                        }
+                                    })}
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        }
+                    },
+                    isDynamic:true
+                    // className: !this.judgeIsInCheckbox('5') ? styles.hidden : '',
+                },
+                {
+                    title: 'Clicks',
+                    dataIndex: '6',
+                    width: 100,
+                    render: (text, record) => {
+                        if (record.children) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        if (index == 1) {
+                                            return (
+                                                <p className={styles.sortStyle} key={item + index}>
+                                                    {item}
+                                                    <a onClick={this.clickToAsc.bind(this, record)}>
+                                                        asc
+                                                    </a>
+                                                    <a onClick={this.clickToDesc.bind(this, record)}>
+                                                        desc
+                                                    </a>
+                                                </p>
+                                            );
+                                        } else {
+                                            return <p key={item + index}>{item}</p>;
+                                        }
+                                    })}
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        }
+                    },
+                    isDynamic:true
+                    // className: !this.judgeIsInCheckbox('6') ? styles.hidden : '',
+                },
+                {
+                    title: 'OutFlow',
+                    dataIndex: '7',
+                    width: 100,
+                    render: (text, record) => {
+                        if (record.children) {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        if (index == 1) {
+                                            return (
+                                                <p className={styles.sortStyle} key={item + index}>
+                                                    {item}
+                                                    <a onClick={this.clickToAsc.bind(this, record)}>
+                                                        asc
+                                                    </a>
+                                                    <a onClick={this.clickToDesc.bind(this, record)}>
+                                                        desc
+                                                    </a>
+                                                </p>
+                                            );
+                                        } else {
+                                            return <p key={item + index}>{item}</p>;
+                                        }
+                                    })}
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <span className={styles.imitateWrapper}>
+                                    {text.map((item, index) => {
+                                        return <p key={item + index}>{item}</p>;
+                                    })}
+                                </span>
+                            );
+                        }
+                    },
+                    isDynamic:true
+                    // className: !this.judgeIsInCheckbox('7') ? styles.hidden : '',
+                },
+                {
+                    title: 'Operate',
+                    dataIndex: '',
+                    width: 100,
+                    fixed: 'right',
+                    render: (text, record) => {
+                        return <a>Operate</a>
+                    }
+                }
+            ],
 		};
 	}
 
 	componentDidMount() {
-		this.fetchList(1);
+        this.fetchList(1);
+        const tempColumns = this.state.columns.map((col, index)=>{
+            let tempCol = {...col};
+           if(col.isDynamic && this.state.allCheckTableColsToShow.indexOf(col.dataIndex) == -1){
+               tempCol.className = styles.hidden;   
+           }
+           return tempCol;
+        })
+        this.setState({
+            columns:tempColumns
+        })
 	}
 
 	componentWillUnmount() {}
@@ -364,9 +786,6 @@ export default class DeductionTypeDocPage extends PureComponent {
 	};
 
 	filterList = (record, filterType, value) => {
-		console.log(record);
-		console.log(filterType);
-		console.log(value);
 		let tempRecord = deepCloneObj(record);
 		let tempCompleteChild = tempRecord.tempCompleteChild
 			? tempRecord.tempCompleteChild
@@ -405,7 +824,17 @@ export default class DeductionTypeDocPage extends PureComponent {
                 }
             })
         }else if(type == 2){
+            const tempColumns = this.state.columns.map((col, index)=>{
+                let tempCol = {...col};
+               if(col.isDynamic && checkedValues.indexOf(col.dataIndex) == -1){
+                   tempCol.className = styles.hidden;   
+               }else{
+                   tempCol.className = ''
+               }
+               return tempCol;
+            })
             this.setState({
+                columns:tempColumns,
                 allCheckTableColsToShow:checkedValues
             })
         }
@@ -453,421 +882,48 @@ export default class DeductionTypeDocPage extends PureComponent {
     }
 
     judgeIsInCheckbox = value => {
-		if (this.state['allCheckTableColsToShow'].indexOf(value) > -1) {
-			return true;
-		} else {
-			return false;
-		}
-	};
+        if (this.state['allCheckTableColsToShow'].indexOf(value) > -1) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    
+    components = {
+        header: {
+          cell: ResizeableTitle,
+        },
+    };
+
+    handleResize = index => (e, { size }) => {
+        this.setState(({ columns }) => {
+          const nextColumns = [...columns];
+          nextColumns[index] = {
+            ...nextColumns[index],
+            width: size.width,
+          };
+          return { columns: nextColumns };
+        });
+    };
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { dataList, loading, headerTypeChoose } = this.state;
-		const columns = [
-			{
-				title: () => {
-					return (
-						<span className={styles.pannelHeader}>
-							{this.state.headerTypeArr.map((item, index) => {
-								return (
-									<a
-										key={'headerTypeArr' + index}
-										onClick={this.clickType.bind(this, item, null)}
-										className={
-											item.selected ? null : styles.pannelHeaderDefault
-										}
-									>
-										{item.label}
-									</a>
-								);
-							})}
-						</span>
-					);
-				},
-                dataIndex: 'id',
-                fixed: 'left',
-                width: 520,
-				render: (value, row, index) => {
-					let labelFilter;
-					const subText = (
-						<div className={styles.pannelHeader}>
-                            <div className={styles.pannelOperate}
-                                style={row.typeArr && row.typeArr.length == 3 ? {marginLeft:22}:(
-                                    row.typeArr && row.typeArr.length == 2? {marginLeft:22*2}:(
-                                        row.typeArr && row.typeArr.length == 1?{marginLeft:22*3}:{marginLeft:80} )
-                                )}>
-                                {row.typeArr && row.typeArr.length
-                                    ? row.typeArr.map((item, ind) => {
-                                            if (item.selected) {
-                                                labelFilter = item;
-                                            }
-                                            return (
-                                                <a
-                                                    key={row.id + ind}
-                                                    onClick={this.clickType.bind(this, item, row)}
-                                                    className={
-                                                        item.selected
-                                                            ? null
-                                                            : styles.pannelHeaderDefault
-                                                    }
-                                                >
-                                                    {item.label}
-                                                </a>
-                                            );
-                                    })
-                                    : <a style={{visibility:'hidden'}}>1</a>}
-                            </div>
-                            <div  className={styles.headImgAllWrapper}>
-                                <img style={row[0].length && row[0].length>1?{width:30,height:30}:{width:15,height:15}} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
-                                <div className={row[0].length && row[0].length>1?styles.headTitleWrapper:styles.headTitleWrapperTwo}>   
-                                    <span>{`${value}-${row.name}`}</span>
-                                    <span>{`${row.startDate}-${row.endDate}`}</span>
-                                </div>
-                            </div>
-						</div>
-					);
-					if (row.children) {
-						const content = (
-							<div>
-								<label>{labelFilter.label}：</label>
-								<Search
-									placeholder="input search text"
-									onSearch={this.filterList.bind(this, row, labelFilter.type)}
-									style={{ width: 120 }}
-								/>
-							</div>
-						);
-						return (
-							<span className={styles.imitateWrapper} style={{width:450}}>
-								<Popover content={content} trigger="click">
-									<Icon type="filter" style={{ cursor: 'pointer' }} />
-								</Popover>
-								<div style={{ display: 'inline-block' }}>{subText}</div>
-							</span>
-						);
-					} else {
-						return (
-							<span className={styles.imitateWrapper}>
-								<div style={{ display: 'inline-block' }}>{subText}</div>
-							</span>
-						);
-					}
-				},
-			},
-			{
-				title: 'Date',
-				dataIndex: '0',
-				width: 100,
-				render: (text, record) => {
-					if (text) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					} else {
-						return '';
-					}
-				},
-			},
-			{
-				title: 'Count',
-				dataIndex: '1',
-				width: 100,
-				render: (text, record) => {
-					if (record.children) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									if (index == 1) {
-										return (
-											<p className={styles.sortStyle} key={item + index}>
-												{item}
-												<a onClick={this.clickToAsc.bind(this, record)}>
-													asc
-												</a>
-												<a onClick={this.clickToDesc.bind(this, record)}>
-													desc
-												</a>
-											</p>
-										);
-									} else {
-										return <p key={item + index}>{item}</p>;
-									}
-								})}
-							</span>
-						);
-					} else {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					}
-				},
-                sorter: (a, b) => a[1][1] - b[1][1],
-                className: !this.judgeIsInCheckbox('1') ? styles.hidden : '',
-            },
-            {
-				title: 'Conv',
-				dataIndex: '2',
-				width: 100,
-				render: (text, record) => {
-					if (record.children) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									if (index == 1) {
-										return (
-											<p className={styles.sortStyle} key={item + index}>
-												{item}
-												<a onClick={this.clickToAsc.bind(this, record)}>
-													asc
-												</a>
-												<a onClick={this.clickToDesc.bind(this, record)}>
-													desc
-												</a>
-											</p>
-										);
-									} else {
-										return <p key={item + index}>{item}</p>;
-									}
-								})}
-							</span>
-						);
-					} else {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					}
-				},
-                sorter: (a, b) => a[2][1] - b[2][1],
-                className: !this.judgeIsInCheckbox('2') ? styles.hidden : '',
-            },
-            {
-				title: 'Delivered',
-				dataIndex: '3',
-				width: 100,
-				render: (text, record) => {
-					if (record.children) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									if (index == 1) {
-										return (
-											<p className={styles.sortStyle} key={item + index}>
-												{item}
-												<a onClick={this.clickToAsc.bind(this, record)}>
-													asc
-												</a>
-												<a onClick={this.clickToDesc.bind(this, record)}>
-													desc
-												</a>
-											</p>
-										);
-									} else {
-										return <p key={item + index}>{item}</p>;
-									}
-								})}
-							</span>
-						);
-					} else { 
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					}
-				},
-                sorter: (a, b) => a[3][1] - b[3][1],
-                className: !this.judgeIsInCheckbox('3') ? styles.hidden : '',
-            },
-            {
-				title: 'Fraud',
-				dataIndex: '4',
-				width: 100,
-				render: (text, record) => {
-					if (record.children) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									if (index == 1) {
-										return (
-											<p className={styles.sortStyle} key={item + index}>
-												{item}
-												<a onClick={this.clickToAsc.bind(this, record)}>
-													asc
-												</a>
-												<a onClick={this.clickToDesc.bind(this, record)}>
-													desc
-												</a>
-											</p>
-										);
-									} else {
-										return <p key={item + index}>{item}</p>;
-									}
-								})}
-							</span>
-						);
-					} else {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					}
-				},
-                sorter: (a, b) => a[4][1] - b[4][1],
-                className: !this.judgeIsInCheckbox('4') ? styles.hidden : '',
-            },
-            {
-				title: 'Kpi',
-				dataIndex: '5',
-				width: 100,
-				render: (text, record) => {
-					if (record.children) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									if (index == 1) {
-										return (
-											<p className={styles.sortStyle} key={item + index}>
-												{item}
-												<a onClick={this.clickToAsc.bind(this, record)}>
-													asc
-												</a>
-												<a onClick={this.clickToDesc.bind(this, record)}>
-													desc
-												</a>
-											</p>
-										);
-									} else {
-										return <p key={item + index}>{item}</p>;
-									}
-								})}
-							</span>
-						);
-					} else {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					}
-				},
-                sorter: (a, b) => a[5][1] - b[5][1],
-                className: !this.judgeIsInCheckbox('5') ? styles.hidden : '',
-            },
-            {
-				title: 'Clicks',
-				dataIndex: '6',
-				width: 100,
-				render: (text, record) => {
-					if (record.children) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									if (index == 1) {
-										return (
-											<p className={styles.sortStyle} key={item + index}>
-												{item}
-												<a onClick={this.clickToAsc.bind(this, record)}>
-													asc
-												</a>
-												<a onClick={this.clickToDesc.bind(this, record)}>
-													desc
-												</a>
-											</p>
-										);
-									} else {
-										return <p key={item + index}>{item}</p>;
-									}
-								})}
-							</span>
-						);
-					} else {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					}
-				},
-                sorter: (a, b) => a[6][1] - b[6][1],
-                className: !this.judgeIsInCheckbox('6') ? styles.hidden : '',
-            },
-            {
-				title: 'OutFlow',
-				dataIndex: '7',
-				width: 100,
-				render: (text, record) => {
-					if (record.children) {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									if (index == 1) {
-										return (
-											<p className={styles.sortStyle} key={item + index}>
-												{item}
-												<a onClick={this.clickToAsc.bind(this, record)}>
-													asc
-												</a>
-												<a onClick={this.clickToDesc.bind(this, record)}>
-													desc
-												</a>
-											</p>
-										);
-									} else {
-										return <p key={item + index}>{item}</p>;
-									}
-								})}
-							</span>
-						);
-					} else {
-						return (
-							<span className={styles.imitateWrapper}>
-								{text.map((item, index) => {
-									return <p key={item + index}>{item}</p>;
-								})}
-							</span>
-						);
-					}
-				},
-                sorter: (a, b) => a[7][1] - b[7][1],
-                className: !this.judgeIsInCheckbox('7') ? styles.hidden : '',
-            },
-            {
-                title: 'Operate',
-				dataIndex: '',
-                width: 100,
-                fixed: 'right',
-				render: (text, record) => {
-                    return <a>Operate</a>
-                }
-            }
-        ];
+
 
         const radioStyle = {
             display: 'block',
             height: '30px',
             lineHeight: '30px',
         };
+
+        const scrollX = this.state.columns.reduce((total,item)=>{
+            let width = 0;
+            if(!item.className){
+                width = item.width;
+            }
+            return total+width;
+        },0)
         
         const timeRangContent = (
             <div style={{width:280,overflow:'hidden'}} className={styles.optionsWrapper}>
@@ -913,6 +969,14 @@ export default class DeductionTypeDocPage extends PureComponent {
             </div>
         )
 
+        const columns = this.state.columns.map((col, index) => ({
+            ...col,
+            onHeaderCell: column => ({
+              width: column.width,
+              onResize: this.handleResize(index),
+            }),
+        }));
+
 		return (
 			<div>
 				<PageHeaderLayout />
@@ -951,13 +1015,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                             </Row>
                         </Form>
 						<Table
-                            scroll={{ x: 1500, y: 400 }}
+                            scroll={{ x: scrollX, y: 400 }}
 							rowKey="uniqueKey"
 							columns={columns}
 							dataSource={dataList}
 							bordered
 							loading={loading}
-							size="small"
+                            size="small"
+                            components={this.components}
 							pagination={false}
 						/>
 					</div>
