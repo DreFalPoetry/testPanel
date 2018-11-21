@@ -30,6 +30,7 @@ import {
     Checkbox,
     Radio
 } from 'antd';
+
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { getDate, getTheFirstDay, deepCloneObj } from '../../utils/commonFunc';
 import {getTimeDistance} from '../../utils/utils';
@@ -198,7 +199,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Date',
                     dataIndex: '0',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (text) {
                             return (
@@ -216,22 +217,28 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Count',
                     dataIndex: '1',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (record.children) {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        if (index == 1) {
+                                        if (index == this.state.defaultRadioOpt) {//为排序的时间维度的话添加排序标志
                                             return (
                                                 <p className={styles.sortStyle} key={item + index}>
                                                     {item}
-                                                    <a onClick={this.clickToAsc.bind(this, record)}>
-                                                        asc
-                                                    </a>
-                                                    <a onClick={this.clickToDesc.bind(this, record)}>
-                                                        desc
-                                                    </a>
+                                                    <Icon 
+                                                        type="caret-up" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,1, record,'1asc',1)}
+                                                        className={this.state.currentSort == '1asc'?styles.currentSort:null}
+                                                    />
+                                                    <Icon 
+                                                        type="caret-down" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,1, record,'1desc',2)}
+                                                        className={this.state.currentSort == '1desc'?styles.currentSort:null}
+                                                    />
                                                 </p>
                                             );
                                         } else {
@@ -256,7 +263,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Conv',
                     dataIndex: '2',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (record.children) {
                             return (
@@ -266,12 +273,18 @@ export default class DeductionTypeDocPage extends PureComponent {
                                             return (
                                                 <p className={styles.sortStyle} key={item + index}>
                                                     {item}
-                                                    <a onClick={this.clickToAsc.bind(this, record)}>
-                                                        asc
-                                                    </a>
-                                                    <a onClick={this.clickToDesc.bind(this, record)}>
-                                                        desc
-                                                    </a>
+                                                    <Icon 
+                                                        type="caret-up" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,2, record,'2asc',1)}
+                                                        className={this.state.currentSort == '2asc'?styles.currentSort:null}
+                                                    />
+                                                    <Icon 
+                                                        type="caret-down" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,2, record,'2desc',2)}
+                                                        className={this.state.currentSort == '2desc'?styles.currentSort:null}
+                                                    />
                                                 </p>
                                             );
                                         } else {
@@ -296,7 +309,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Delivered',
                     dataIndex: '3',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (record.children) {
                             return (
@@ -306,12 +319,18 @@ export default class DeductionTypeDocPage extends PureComponent {
                                             return (
                                                 <p className={styles.sortStyle} key={item + index}>
                                                     {item}
-                                                    <a onClick={this.clickToAsc.bind(this, record)}>
-                                                        asc
-                                                    </a>
-                                                    <a onClick={this.clickToDesc.bind(this, record)}>
-                                                        desc
-                                                    </a>
+                                                    <Icon 
+                                                        type="caret-up" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,3, record,'3asc',1)}
+                                                        className={this.state.currentSort == '3asc'?styles.currentSort:null}
+                                                    />
+                                                    <Icon 
+                                                        type="caret-down" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,3, record,'3desc',2)}
+                                                        className={this.state.currentSort == '3desc'?styles.currentSort:null}
+                                                    />
                                                 </p>
                                             );
                                         } else {
@@ -336,7 +355,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Fraud',
                     dataIndex: '4',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (record.children) {
                             return (
@@ -346,12 +365,18 @@ export default class DeductionTypeDocPage extends PureComponent {
                                             return (
                                                 <p className={styles.sortStyle} key={item + index}>
                                                     {item}
-                                                    <a onClick={this.clickToAsc.bind(this, record)}>
-                                                        asc
-                                                    </a>
-                                                    <a onClick={this.clickToDesc.bind(this, record)}>
-                                                        desc
-                                                    </a>
+                                                    <Icon 
+                                                        type="caret-up" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,4, record,'4asc',1)}
+                                                        className={this.state.currentSort == '4asc'?styles.currentSort:null}
+                                                    />
+                                                    <Icon 
+                                                        type="caret-down" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,4, record,'4desc',2)}
+                                                        className={this.state.currentSort == '4desc'?styles.currentSort:null}
+                                                    />
                                                 </p>
                                             );
                                         } else {
@@ -376,7 +401,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Kpi',
                     dataIndex: '5',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (record.children) {
                             return (
@@ -386,12 +411,18 @@ export default class DeductionTypeDocPage extends PureComponent {
                                             return (
                                                 <p className={styles.sortStyle} key={item + index}>
                                                     {item}
-                                                    <a onClick={this.clickToAsc.bind(this, record)}>
-                                                        asc
-                                                    </a>
-                                                    <a onClick={this.clickToDesc.bind(this, record)}>
-                                                        desc
-                                                    </a>
+                                                    <Icon 
+                                                        type="caret-up" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,5, record,'5asc',1)}
+                                                        className={this.state.currentSort == '5asc'?styles.currentSort:null}
+                                                    />
+                                                    <Icon 
+                                                        type="caret-down" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,5, record,'5desc',2)}
+                                                        className={this.state.currentSort == '5desc'?styles.currentSort:null}
+                                                    />
                                                 </p>
                                             );
                                         } else {
@@ -416,7 +447,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Clicks',
                     dataIndex: '6',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (record.children) {
                             return (
@@ -426,12 +457,18 @@ export default class DeductionTypeDocPage extends PureComponent {
                                             return (
                                                 <p className={styles.sortStyle} key={item + index}>
                                                     {item}
-                                                    <a onClick={this.clickToAsc.bind(this, record)}>
-                                                        asc
-                                                    </a>
-                                                    <a onClick={this.clickToDesc.bind(this, record)}>
-                                                        desc
-                                                    </a>
+                                                    <Icon 
+                                                        type="caret-up" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,6, record,'6asc',1)}
+                                                        className={this.state.currentSort == '6asc'?styles.currentSort:null}
+                                                    />
+                                                    <Icon 
+                                                        type="caret-down" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,6, record,'6desc',2)}
+                                                        className={this.state.currentSort == '6desc'?styles.currentSort:null}
+                                                    />
                                                 </p>
                                             );
                                         } else {
@@ -456,7 +493,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'OutFlow',
                     dataIndex: '7',
-                    width: 100,
+                    width: 120,
                     render: (text, record) => {
                         if (record.children) {
                             return (
@@ -466,12 +503,18 @@ export default class DeductionTypeDocPage extends PureComponent {
                                             return (
                                                 <p className={styles.sortStyle} key={item + index}>
                                                     {item}
-                                                    <a onClick={this.clickToAsc.bind(this, record)}>
-                                                        asc
-                                                    </a>
-                                                    <a onClick={this.clickToDesc.bind(this, record)}>
-                                                        desc
-                                                    </a>
+                                                    <Icon 
+                                                        type="caret-up" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,7, record,'7asc',1)}
+                                                        className={this.state.currentSort == '7asc'?styles.currentSort:null}
+                                                    />
+                                                    <Icon 
+                                                        type="caret-down" 
+                                                        style={{cursor:'pointer'}} 
+                                                        onClick={this.clickToSort.bind(this,7, record,'7desc',2)}
+                                                        className={this.state.currentSort == '7desc'?styles.currentSort:null}
+                                                    />
                                                 </p>
                                             );
                                         } else {
@@ -496,13 +539,15 @@ export default class DeductionTypeDocPage extends PureComponent {
                 {
                     title: 'Operate',
                     dataIndex: '',
-                    width: 100,
+                    width: 120,
                     fixed: 'right',
                     render: (text, record) => {
                         return <a>Operate</a>
                     }
                 }
             ],
+            tableLoading:false,
+            currentSort:null
 		};
 	}
 
@@ -705,15 +750,21 @@ export default class DeductionTypeDocPage extends PureComponent {
 		});
 	};
 
-	clickToAsc = record => {
-		let tempRecord = deepCloneObj(record);
-		let tempChild = tempRecord.children.sort(this.sortCompare(1, 1, 1));
-		this.asyncDataList(tempRecord, tempChild);
-	};
 
-	clickToDesc = record => {
+
+    /**
+     * @param dataIndex:column的dataIndex
+     * @param record:该列的数据信息
+     * @param currentSort:每一列的排序标记
+     * @param sortType:升序或降序 升序 1，降序 2
+     */
+	clickToSort = (dataIndex,record,currentSort,sortType) => {
+        this.setState({
+            loading:true,
+            currentSort:currentSort
+        })
 		let tempRecord = deepCloneObj(record);
-		let tempChild = tempRecord.children.sort(this.sortCompare(1, 1, 2));
+		let tempChild = tempRecord.children.sort(this.sortCompare(dataIndex, this.state.defaultRadioOpt, sortType));
 		this.asyncDataList(tempRecord, tempChild);
 	};
 
@@ -768,10 +819,20 @@ export default class DeductionTypeDocPage extends PureComponent {
 			}
 		}
 		this.setState({
-			dataList: tempDataList,
-		});
+            dataList: tempDataList,
+        });
+        setTimeout(()=>{
+            this.setState({
+                loading:false
+            })
+        },0)
 	};
 
+    /**
+     * @param property:哪一列进行排序,依据column的index
+     * @param index:时间维度的数组index
+     * @param type:升序或降序--升序1，降序2
+     */
 	sortCompare = (property, index, type) => {
 		return function(obj1, obj2) {
 			var value1 = obj1[property][index];
@@ -909,8 +970,6 @@ export default class DeductionTypeDocPage extends PureComponent {
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { dataList, loading, headerTypeChoose } = this.state;
-
-
         const radioStyle = {
             display: 'block',
             height: '30px',
@@ -1015,7 +1074,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             </Row>
                         </Form>
 						<Table
-                            scroll={{ x: scrollX, y: 400 }}
+                            scroll={{ x: scrollX,y:500}}
 							rowKey="uniqueKey"
 							columns={columns}
 							dataSource={dataList}
