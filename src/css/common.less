@@ -6,23 +6,29 @@
 }
 
 .pannelHeader {
-    width: 450px;
+    // width: 450px;
+    overflow: hidden;
 	a {
-		margin-right: 10px;
+		margin-right: 5px;
 	}
 }
 .pannelOperate{
     float: left;
+    margin-top: 5px;
 }
 .headImgAllWrapper{
     float: left;
-    width: 250px;
+    // width: 250px;
     overflow: hidden;
+    display: table;
     img{
-        float: left;
+        margin-top: 5px;
+        display: table-cell;
+        vertical-align: middle;
     }
     .headTitleWrapper{
-        float: left;
+        display: table-cell;
+        vertical-align: middle;
         max-width: 200px;
         span{
             display: inline-block;
@@ -30,8 +36,6 @@
         }
     }
     .headTitleWrapperTwo{
-        float: left;
-        max-width: 200px;
         span{
             white-space:nowrap;
         }
@@ -42,6 +46,7 @@
 }
 .pannelTableWrapper {
 	.imitateWrapper {
+        position: relative;
         display: block;
         overflow: hidden;
 		p {
@@ -87,6 +92,37 @@
     cursor: col-resize;
 }
 
-.currentSort{
-    color: blue;
+.sortRadiosDisplay{
+    float: right;
+    display: block;
+    width: 20px;
+    height: 20px;
+    position:relative;
+    i{
+        color: #bfbfbf;
+        position:absolute;
+        font-size: 12px;
+        &:first-child{
+            top: 0px;
+            left: 0px;
+        }
+        &:last-child{
+            bottom: 0px;
+            left: 0px;
+        }
+    }
 }
+
+.currentSort{
+    color: #1890ff!important;
+}
+
+.filterIconsDisplay{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -10px;
+    font-size: 12px;
+    color: #bfbfbf;
+}
+

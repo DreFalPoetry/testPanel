@@ -103,11 +103,30 @@ export default class DeductionTypeDocPage extends PureComponent {
             end_date: getTimeDistance('month')[1].format('YYYY-MM-DD'),
             rangePickerShow:false,
             popoverVisible:false,
-            allCheckTableColsToShow:['1','2','3','4','5','6','7'],
+            allCheckTableColsToShow:['1','2'],
             columnPopoverVisible:false,
-            columns:[
+            columns:[],
+            tableLoading:false,
+            currentSort:null,
+            initalColumns:[
                 {
                     title: () => {
+                        let titleLabelFilter;
+                        this.state.headerTypeArr.map((item,index)=>{
+                            if(item.selected){
+                                titleLabelFilter = item
+                            }
+                        })
+                        const content = (
+                            <div>
+                                <label>{titleLabelFilter.label}：</label>
+                                <Search
+                                    placeholder="input search text"
+                                    onSearch={this.filterList.bind(this, null, titleLabelFilter.type)}
+                                    style={{ width: 120 }}
+                                />
+                            </div>
+                        );
                         return (
                             <span className={styles.pannelHeader}>
                                 {this.state.headerTypeArr.map((item, index) => {
@@ -123,6 +142,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                         </a>
                                     );
                                 })}
+                                 <Popover content={content} trigger="click">
+                                    <Icon type="filter"/>
+                                </Popover>
                             </span>
                         );
                     },
@@ -145,7 +167,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                 }
                                                 return (
                                                     <a
-                                                        key={row.id + ind}
+                                                        key={String(row.id) + ind}
                                                         onClick={this.clickType.bind(this, item, row)}
                                                         className={
                                                             item.selected
@@ -180,12 +202,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                 </div>
                             );
                             return (
-                                <span className={styles.imitateWrapper} style={{width:450}}>
-                                    <Popover content={content} trigger="click">
-                                        <Icon type="filter" style={{ cursor: 'pointer' }} />
-                                    </Popover>
-                                    <div style={{ display: 'inline-block' }}>{subText}</div>
-                                </span>
+                                <div>
+                                    <span className={styles.imitateWrapper}>
+                                        <div style={{ display: 'inline-block' }}>{subText}</div>
+                                        <Popover content={content} trigger="click">
+                                            <Icon type="filter" style={{ cursor: 'pointer' }} className={styles.filterIconsDisplay}/>
+                                        </Popover>
+                                    </span>
+                                </div>
                             );
                         } else {
                             return (
@@ -195,6 +219,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             );
                         }
                     },
+                    isDefault:true
                 },
                 {
                     title: 'Date',
@@ -205,7 +230,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) + item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
@@ -213,9 +238,28 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return '';
                         }
                     },
+                    isDefault:true
                 },
                 {
-                    title: 'Count',
+                    title: ()=>(
+                        <span>
+                            Count
+                            <span className={styles.sortRadiosDisplay}>
+                                <Icon 
+                                    type="caret-up" 
+                                    style={{cursor:'pointer'}} 
+                                    onClick={this.clickToSort.bind(this,1, null,'1asc',1)}
+                                    className={this.state.currentSort == '1asc'?styles.currentSort:null}
+                                />
+                                <Icon 
+                                    type="caret-down" 
+                                    style={{cursor:'pointer'}} 
+                                    onClick={this.clickToSort.bind(this,1, null,'1desc',2)}
+                                    className={this.state.currentSort == '1desc'?styles.currentSort:null}
+                                />
+                            </span>
+                        </span>
+                    ),
                     dataIndex: '1',
                     width: 120,
                     render: (text, record) => {
@@ -225,8 +269,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {//为排序的时间维度的话添加排序标志
                                             return (
-                                                <p className={styles.sortStyle} key={item + index}>
+                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
                                                     {item}
+                                                    <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
@@ -239,10 +284,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                         onClick={this.clickToSort.bind(this,1, record,'1desc',2)}
                                                         className={this.state.currentSort == '1desc'?styles.currentSort:null}
                                                     />
+                                                    </span>
                                                 </p>
                                             );
                                         } else {
-                                            return <p key={item + index}>{item}</p>;
+                                            return <p key={String(record.id) + item + index}>{item}</p>;
                                         }
                                     })}
                                 </span>
@@ -251,17 +297,33 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) + item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
                         }
                     },
-                    isDynamic:true
-                    // className: !this.judgeIsInCheckbox('1') ? styles.hidden : '',
                 },
                 {
-                    title: 'Conv',
+                    title:()=>(
+                        <span>
+                            Conv
+                            <span className={styles.sortRadiosDisplay}>
+                            <Icon 
+                                type="caret-up" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,2, null,'2asc',1)}
+                                className={this.state.currentSort == '2asc'?styles.currentSort:null}
+                            />
+                            <Icon 
+                                type="caret-down" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,2, null,'2desc',2)}
+                                className={this.state.currentSort == '2desc'?styles.currentSort:null}
+                            />
+                            </span>
+                        </span>
+                    ),
                     dataIndex: '2',
                     width: 120,
                     render: (text, record) => {
@@ -271,8 +333,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == 1) {
                                             return (
-                                                <p className={styles.sortStyle} key={item + index}>
+                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
                                                     {item}
+                                                    <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
@@ -285,10 +348,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                         onClick={this.clickToSort.bind(this,2, record,'2desc',2)}
                                                         className={this.state.currentSort == '2desc'?styles.currentSort:null}
                                                     />
+                                                    </span>
                                                 </p>
                                             );
                                         } else {
-                                            return <p key={item + index}>{item}</p>;
+                                            return <p key={String(record.id) + item + index}>{item}</p>;
                                         }
                                     })}
                                 </span>
@@ -297,17 +361,33 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) + item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
                         }
                     },
-                    isDynamic:true
-                    // className: !this.judgeIsInCheckbox('2') ? styles.hidden : '',
                 },
                 {
-                    title: 'Delivered',
+                    title: ()=>(
+                        <span>
+                            Delivered
+                            <span className={styles.sortRadiosDisplay}>
+                            <Icon 
+                                type="caret-up" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,3, null,'3asc',1)}
+                                className={this.state.currentSort == '3asc'?styles.currentSort:null}
+                            />
+                            <Icon 
+                                type="caret-down" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,3, null,'3desc',2)}
+                                className={this.state.currentSort == '3desc'?styles.currentSort:null}
+                            />
+                            </span>
+                        </span>
+                    ),
                     dataIndex: '3',
                     width: 120,
                     render: (text, record) => {
@@ -317,8 +397,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == 1) {
                                             return (
-                                                <p className={styles.sortStyle} key={item + index}>
+                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
                                                     {item}
+                                                    <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
@@ -331,10 +412,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                         onClick={this.clickToSort.bind(this,3, record,'3desc',2)}
                                                         className={this.state.currentSort == '3desc'?styles.currentSort:null}
                                                     />
+                                                    </span>
                                                 </p>
                                             );
                                         } else {
-                                            return <p key={item + index}>{item}</p>;
+                                            return <p key={String(record.id) + item + index}>{item}</p>;
                                         }
                                     })}
                                 </span>
@@ -343,17 +425,33 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) + item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
                         }
                     },
-                    isDynamic:true
-                    // className: !this.judgeIsInCheckbox('3') ? styles.hidden : '',
                 },
                 {
-                    title: 'Fraud',
+                    title: ()=>(
+                        <span>
+                            Fraud
+                            <span className={styles.sortRadiosDisplay}>
+                            <Icon 
+                                type="caret-up" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,4, null,'4asc',1)}
+                                className={this.state.currentSort == '4asc'?styles.currentSort:null}
+                            />
+                            <Icon 
+                                type="caret-down" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,4, null,'4desc',2)}
+                                className={this.state.currentSort == '4desc'?styles.currentSort:null}
+                            />
+                            </span>
+                        </span>
+                    ),
                     dataIndex: '4',
                     width: 120,
                     render: (text, record) => {
@@ -363,8 +461,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == 1) {
                                             return (
-                                                <p className={styles.sortStyle} key={item + index}>
+                                                <p className={styles.sortStyle} key={String(record.id) +item + index}>
                                                     {item}
+                                                    <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
@@ -377,10 +476,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                         onClick={this.clickToSort.bind(this,4, record,'4desc',2)}
                                                         className={this.state.currentSort == '4desc'?styles.currentSort:null}
                                                     />
+                                                    </span>
                                                 </p>
                                             );
                                         } else {
-                                            return <p key={item + index}>{item}</p>;
+                                            return <p key={String(record.id) +item + index}>{item}</p>;
                                         }
                                     })}
                                 </span>
@@ -389,17 +489,33 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) +item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
                         }
                     },
-                    isDynamic:true
-                    // className: !this.judgeIsInCheckbox('4') ? styles.hidden : '',
                 },
                 {
-                    title: 'Kpi',
+                    title: ()=>(
+                        <span>
+                            Kpi
+                            <span className={styles.sortRadiosDisplay}>
+                            <Icon 
+                                type="caret-up" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,5, null,'5asc',1)}
+                                className={this.state.currentSort == '5asc'?styles.currentSort:null}
+                            />
+                            <Icon 
+                                type="caret-down" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,5, null,'5desc',2)}
+                                className={this.state.currentSort == '5desc'?styles.currentSort:null}
+                            />
+                            </span>
+                        </span>
+                    ),
                     dataIndex: '5',
                     width: 120,
                     render: (text, record) => {
@@ -409,8 +525,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == 1) {
                                             return (
-                                                <p className={styles.sortStyle} key={item + index}>
+                                                <p className={styles.sortStyle} key={String(record.id) +item + index}>
                                                     {item}
+                                                    <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
@@ -423,10 +540,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                         onClick={this.clickToSort.bind(this,5, record,'5desc',2)}
                                                         className={this.state.currentSort == '5desc'?styles.currentSort:null}
                                                     />
+                                                    </span>
                                                 </p>
                                             );
                                         } else {
-                                            return <p key={item + index}>{item}</p>;
+                                            return <p key={String(record.id) +item + index}>{item}</p>;
                                         }
                                     })}
                                 </span>
@@ -435,17 +553,33 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) +item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
                         }
                     },
-                    isDynamic:true
-                    // className: !this.judgeIsInCheckbox('5') ? styles.hidden : '',
                 },
                 {
-                    title: 'Clicks',
+                    title: ()=>(
+                        <span>
+                            Clicks
+                            <span className={styles.sortRadiosDisplay}>
+                            <Icon 
+                                type="caret-up" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,6, null,'6asc',1)}
+                                className={this.state.currentSort == '6asc'?styles.currentSort:null}
+                            />
+                            <Icon 
+                                type="caret-down" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,6, null,'6desc',2)}
+                                className={this.state.currentSort == '6desc'?styles.currentSort:null}
+                            />
+                            </span>
+                        </span>
+                    ),
                     dataIndex: '6',
                     width: 120,
                     render: (text, record) => {
@@ -455,8 +589,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == 1) {
                                             return (
-                                                <p className={styles.sortStyle} key={item + index}>
+                                                <p className={styles.sortStyle} key={String(record.id) +item + index}>
                                                     {item}
+                                                    <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
@@ -469,10 +604,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                         onClick={this.clickToSort.bind(this,6, record,'6desc',2)}
                                                         className={this.state.currentSort == '6desc'?styles.currentSort:null}
                                                     />
+                                                    </span>
                                                 </p>
                                             );
                                         } else {
-                                            return <p key={item + index}>{item}</p>;
+                                            return <p key={String(record.id) +item + index}>{item}</p>;
                                         }
                                     })}
                                 </span>
@@ -481,17 +617,33 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) +item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
                         }
                     },
-                    isDynamic:true
-                    // className: !this.judgeIsInCheckbox('6') ? styles.hidden : '',
                 },
                 {
-                    title: 'OutFlow',
+                    title: ()=>(
+                        <span>
+                            OutFlow
+                            <span className={styles.sortRadiosDisplay}>
+                            <Icon 
+                                type="caret-up" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,7, null,'7asc',1)}
+                                className={this.state.currentSort == '7asc'?styles.currentSort:null}
+                            />
+                            <Icon 
+                                type="caret-down" 
+                                style={{cursor:'pointer'}} 
+                                onClick={this.clickToSort.bind(this,7, null,'7desc',2)}
+                                className={this.state.currentSort == '7desc'?styles.currentSort:null}
+                            />
+                            </span>
+                        </span>
+                    ),
                     dataIndex: '7',
                     width: 120,
                     render: (text, record) => {
@@ -501,8 +653,9 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == 1) {
                                             return (
-                                                <p className={styles.sortStyle} key={item + index}>
+                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
                                                     {item}
+                                                    <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
@@ -515,10 +668,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                         onClick={this.clickToSort.bind(this,7, record,'7desc',2)}
                                                         className={this.state.currentSort == '7desc'?styles.currentSort:null}
                                                     />
+                                                    </span>
                                                 </p>
                                             );
                                         } else {
-                                            return <p key={item + index}>{item}</p>;
+                                            return <p key={String(record.id) + item + index}>{item}</p>;
                                         }
                                     })}
                                 </span>
@@ -527,14 +681,12 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        return <p key={item + index}>{item}</p>;
+                                        return <p key={String(record.id) + item + index}>{item}</p>;
                                     })}
                                 </span>
                             );
                         }
                     },
-                    isDynamic:true
-                    // className: !this.judgeIsInCheckbox('7') ? styles.hidden : '',
                 },
                 {
                     title: 'Operate',
@@ -543,26 +695,24 @@ export default class DeductionTypeDocPage extends PureComponent {
                     fixed: 'right',
                     render: (text, record) => {
                         return <a>Operate</a>
-                    }
+                    },
+                    isDefault:true
                 }
-            ],
-            tableLoading:false,
-            currentSort:null
+            ]
 		};
 	}
 
 	componentDidMount() {
-        this.fetchList(1);
-        const tempColumns = this.state.columns.map((col, index)=>{
-            let tempCol = {...col};
-           if(col.isDynamic && this.state.allCheckTableColsToShow.indexOf(col.dataIndex) == -1){
-               tempCol.className = styles.hidden;   
-           }
-           return tempCol;
+        const tempInitalColumns = [...this.state.initalColumns];
+        const tempColumns = tempInitalColumns.filter((col, index)=>{
+            if(col.isDefault || this.state.allCheckTableColsToShow.indexOf(col.dataIndex) > -1){
+                return col;
+            }
         })
         this.setState({
-            columns:tempColumns
+            columns:tempColumns,
         })
+        this.fetchList(1);
 	}
 
 	componentWillUnmount() {}
@@ -653,7 +803,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 
 				tempDataList.filter((item, index) => {
 					item.typeArr = tempArr;
-					item.uniqueKey = 'first' + index;
+					item.uniqueKey = row.uniqueKey +'-'+ (index+1);
 				});
 
 				let tempDataAll = deepCloneObj(this.state.dataList);
@@ -687,7 +837,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 
 				tempDataList.filter((item, index) => {
 					item.typeArr = tempArr;
-					item.uniqueKey = 'second' + index;
+					item.uniqueKey = row.uniqueKey +'-'+ (index+1);
 				});
 
 				let tempDataAll = deepCloneObj(this.state.dataList);
@@ -725,7 +875,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 
 				tempDataList.filter((item, index) => {
 					item.typeArr = tempArr;
-					item.uniqueKey = 'third' + index;
+					item.uniqueKey = row.uniqueKey +'-'+ (index+1);
 				});
 
 				let tempDataAll = deepCloneObj(this.state.dataList);
@@ -763,9 +913,23 @@ export default class DeductionTypeDocPage extends PureComponent {
             loading:true,
             currentSort:currentSort
         })
-		let tempRecord = deepCloneObj(record);
-		let tempChild = tempRecord.children.sort(this.sortCompare(dataIndex, this.state.defaultRadioOpt, sortType));
-		this.asyncDataList(tempRecord, tempChild);
+        let tempRecord ;
+        if(record){
+            tempRecord = deepCloneObj(record);
+            let tempChild = tempRecord.children.sort(this.sortCompare(dataIndex, this.state.defaultRadioOpt, sortType));
+		    this.asyncDataList(tempRecord, tempChild);
+        }else{
+            tempRecord = deepCloneObj(this.state.dataList);
+            tempRecord.sort(this.sortCompare(dataIndex,this.state.defaultRadioOpt,sortType));
+            this.setState({
+                dataList:tempRecord
+            })
+            setTimeout(()=>{
+                this.setState({
+                    loading:false
+                })
+            },0)
+        }
 	};
 
 	asyncDataList = (tempRecord, tempChild, tempCompleteChild) => {
@@ -847,25 +1011,61 @@ export default class DeductionTypeDocPage extends PureComponent {
 	};
 
 	filterList = (record, filterType, value) => {
-		let tempRecord = deepCloneObj(record);
-		let tempCompleteChild = tempRecord.tempCompleteChild
-			? tempRecord.tempCompleteChild
-			: tempRecord.children;
-		let tempChild = [];
-		if (value) {
-			if (tempRecord.tempCompleteChild) {
-				tempChild = tempRecord.tempCompleteChild.filter(item => {
-					return String(item.id).indexOf(value) > -1;
-				});
-			} else {
-				tempChild = tempRecord.children.filter(item => {
-					return String(item.id).indexOf(value) > -1;
-				});
-			}
-			this.asyncDataList(tempRecord, tempChild, tempCompleteChild);
-		} else {
-			this.asyncDataList(tempRecord, tempCompleteChild);
-		}
+        this.setState({
+            loading:true
+        })
+        if(record){
+            let tempRecord = deepCloneObj(record);
+            let tempCompleteChild = tempRecord.tempCompleteChild
+                ? tempRecord.tempCompleteChild
+                : tempRecord.children;
+            let tempChild = [];
+            if (value) {
+                if (tempRecord.tempCompleteChild) {
+                    tempChild = tempRecord.tempCompleteChild.filter(item => {
+                        return String(item.id).indexOf(value) > -1;
+                    });
+                } else {
+                    tempChild = tempRecord.children.filter(item => {
+                        return String(item.id).indexOf(value) > -1;
+                    });
+                }
+                this.asyncDataList(tempRecord, tempChild, tempCompleteChild);
+            } else {
+                this.asyncDataList(tempRecord, tempCompleteChild);
+            }
+        }else{
+            let tempDataList;
+            if(value){
+                if(!this.state.initalDataList){
+                    tempDataList = [...this.state.dataList];
+                    this.setState({
+                        initalDataList:tempDataList
+                    })
+                }else{
+                    tempDataList = [...this.state.initalDataList];
+                }
+                let tempFilterArr = tempDataList.filter((item)=>{
+                    return String(item.id).indexOf(value) > -1;
+                })
+                this.setState({
+                    dataList:tempFilterArr
+                })
+            }else{
+                if(this.state.initalDataList){
+                    this.setState({
+                        dataList:this.state.initalDataList
+                    },function(){
+                        delete this.state.initalDataList
+                    })
+                }
+            }
+            setTimeout(()=>{
+                this.setState({
+                    loading:false
+                })
+            },0)
+        }
     };
     
 
@@ -885,17 +1085,16 @@ export default class DeductionTypeDocPage extends PureComponent {
                 }
             })
         }else if(type == 2){
-            const tempColumns = this.state.columns.map((col, index)=>{
-                let tempCol = {...col};
-               if(col.isDynamic && checkedValues.indexOf(col.dataIndex) == -1){
-                   tempCol.className = styles.hidden;   
-               }else{
-                   tempCol.className = ''
-               }
-               return tempCol;
-            })
+            const tempInitalColumns = [...this.state.initalColumns];
+            const tempColumns = tempInitalColumns.filter((col, index)=>{
+                if(col.isDefault || checkedValues.indexOf(col.dataIndex) > -1){
+                    return col;
+                }
+            });
+            const tempDataList = [...this.state.dataList];
             this.setState({
                 columns:tempColumns,
+                dataList:tempDataList,
                 allCheckTableColsToShow:checkedValues
             })
         }
@@ -969,13 +1168,12 @@ export default class DeductionTypeDocPage extends PureComponent {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { dataList, loading, headerTypeChoose } = this.state;
+        const { dataList, loading, headerTypeChoose } = this.state;
         const radioStyle = {
             display: 'block',
             height: '30px',
             lineHeight: '30px',
         };
-
         const scrollX = this.state.columns.reduce((total,item)=>{
             let width = 0;
             if(!item.className){
