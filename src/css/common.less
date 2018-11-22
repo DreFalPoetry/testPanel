@@ -36,8 +36,17 @@
         }
     }
     .headTitleWrapperTwo{
+        display: table-cell;
+        vertical-align: middle;
+        max-width: 200px;
+        overflow: hidden;
+        padding-top: 2px;
+        white-space:nowrap;
+        text-overflow: ellipsis;
         span{
-            white-space:nowrap;
+            &:first{
+                margin-right: 2px;
+            }
         }
     }
 }

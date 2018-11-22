@@ -108,6 +108,7 @@ export default class DeductionTypeDocPage extends PureComponent {
             columns:[],
             tableLoading:false,
             currentSort:null,
+            sortStateTree:{},
             initalColumns:[
                 {
                     title: () => {
@@ -275,14 +276,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,1, record,'1asc',1)}
-                                                        className={this.state.currentSort == '1asc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,1, record,record.uniqueKey,1)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][1] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,1, record,'1desc',2)}
-                                                        className={this.state.currentSort == '1desc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,1, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][1] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
                                                 </p>
@@ -339,14 +340,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,2, record,'2asc',1)}
-                                                        className={this.state.currentSort == '2asc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,2, record,record.uniqueKey,1)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][2] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,2, record,'2desc',2)}
-                                                        className={this.state.currentSort == '2desc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,2, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][2] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
                                                 </p>
@@ -403,14 +404,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,3, record,'3asc',1)}
-                                                        className={this.state.currentSort == '3asc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,3, record,record.uniqueKey,1)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][3] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,3, record,'3desc',2)}
-                                                        className={this.state.currentSort == '3desc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,3, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][3] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
                                                 </p>
@@ -467,14 +468,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,4, record,'4asc',1)}
-                                                        className={this.state.currentSort == '4asc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,4, record,record.uniqueKey,1)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][4] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,4, record,'4desc',2)}
-                                                        className={this.state.currentSort == '4desc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,4, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][4] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
                                                 </p>
@@ -531,14 +532,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,5, record,'5asc',1)}
-                                                        className={this.state.currentSort == '5asc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,5, record,record.uniqueKey,1)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][5] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,5, record,'5desc',2)}
-                                                        className={this.state.currentSort == '5desc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,5, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][5] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
                                                 </p>
@@ -595,14 +596,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,6, record,'6asc',1)}
-                                                        className={this.state.currentSort == '6asc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,6, record,record.uniqueKey,1)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][6] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,6, record,'6desc',2)}
-                                                        className={this.state.currentSort == '6desc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,6, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][6] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
                                                 </p>
@@ -659,14 +660,14 @@ export default class DeductionTypeDocPage extends PureComponent {
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,7, record,'7asc',1)}
-                                                        className={this.state.currentSort == '7asc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,7, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][7] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,7, record,'7desc',2)}
-                                                        className={this.state.currentSort == '7desc'?styles.currentSort:null}
+                                                        onClick={this.clickToSort.bind(this,7, record,record.uniqueKey,2)}
+                                                        className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][7] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
                                                 </p>
@@ -911,10 +912,20 @@ export default class DeductionTypeDocPage extends PureComponent {
 	clickToSort = (dataIndex,record,currentSort,sortType) => {
         this.setState({
             loading:true,
-            currentSort:currentSort
         })
         let tempRecord ;
         if(record){
+            //sort部分的逻辑
+            let tempSortTree = {...this.state.sortStateTree};
+            if(tempSortTree[currentSort]){
+                tempSortTree[currentSort] = {[dataIndex]:sortType}
+            }else{
+                tempSortTree[currentSort] = {[dataIndex]:sortType}
+            }
+            this.setState({
+                sortStateTree:tempSortTree
+            })
+            //
             tempRecord = deepCloneObj(record);
             let tempChild = tempRecord.children.sort(this.sortCompare(dataIndex, this.state.defaultRadioOpt, sortType));
 		    this.asyncDataList(tempRecord, tempChild);
@@ -922,7 +933,8 @@ export default class DeductionTypeDocPage extends PureComponent {
             tempRecord = deepCloneObj(this.state.dataList);
             tempRecord.sort(this.sortCompare(dataIndex,this.state.defaultRadioOpt,sortType));
             this.setState({
-                dataList:tempRecord
+                dataList:tempRecord,
+                currentSort:currentSort,
             })
             setTimeout(()=>{
                 this.setState({
