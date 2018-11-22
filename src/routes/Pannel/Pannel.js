@@ -730,14 +730,23 @@ export default class DeductionTypeDocPage extends PureComponent {
 				});
 				this.setState(
 					{
-						headerTypeArr: tempheaderTypeArr,
+                        headerTypeArr: tempheaderTypeArr,
+                        currentSort:null,//先去除所有的sort
+                        sortStateTree:{}
 					},
 					function() {
 						this.fetchList(typeLine.type);
 					}
 				);
 			} else {
-				let tempRow = deepCloneObj(row);
+                let tempRow = deepCloneObj(row);
+                //去除掉这个row下边所有的sort
+                let tempSortTree = {...this.state.sortStateTree};
+                for(let i in tempSortTree){
+                    if(i.length>=tempRow.uniqueKey.length && i.indexOf(tempRow.uniqueKey) > -1){
+                        delete tempSortTree[i]
+                    }
+                }
 				let tempTypeArr = tempRow.typeArr;
 				tempTypeArr.filter(item => {
 					item.selected = false;
@@ -747,11 +756,11 @@ export default class DeductionTypeDocPage extends PureComponent {
 				});
 				tempRow.typeArr = tempTypeArr;
 				if (row.typeArr.length == 3) {
-					this.fetchFirstList(typeLine.type, tempRow);
+					this.fetchFirstList(typeLine.type, tempRow,tempSortTree);
 				} else if (row.typeArr.length == 2) {
-					this.fetchSecondlist(typeLine.type, tempRow);
+					this.fetchSecondlist(typeLine.type, tempRow,tempSortTree);
 				} else if (row.typeArr.length == 1) {
-					this.fetchThirdlist(typeLine.type, tempRow);
+					this.fetchThirdlist(typeLine.type, tempRow,tempSortTree);
 				}
 			}
 		}
@@ -778,7 +787,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 				});
 				tempDataList.filter((item, index) => {
 					item.typeArr = tempArr;
-					item.uniqueKey = index + 1;
+					item.uniqueKey = String(index + 1);
 				});
 				this.setState({
 					dataList: tempDataList,
@@ -788,7 +797,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 	};
 
 	//表格第一级点击出现第二级
-	fetchFirstList = (type, row) => {
+	fetchFirstList = (type, row,tempSortTree) => {
 		const response = filterFirstPannel();
 		response.then(json => {
 			if (json.code == 0) {
@@ -815,14 +824,15 @@ export default class DeductionTypeDocPage extends PureComponent {
 					}
 				});
 				this.setState({
-					dataList: tempDataAll,
+                    dataList: tempDataAll,
+                    sortStateTree:tempSortTree
 				});
 			}
 		});
 	};
 
 	//表格第二级点击出现第三级
-	fetchSecondlist = (type, row) => {
+	fetchSecondlist = (type, row,tempSortTree) => {
 		const response = filterSecondPannel();
 		response.then(json => {
 			if (json.code == 0) {
@@ -853,14 +863,15 @@ export default class DeductionTypeDocPage extends PureComponent {
 					}
 				});
 				this.setState({
-					dataList: tempDataAll,
+                    dataList: tempDataAll,
+                    sortStateTree:tempSortTree
 				});
 			}
 		});
 	};
 
 	//表格第三级点击出现第四级
-	fetchThirdlist = (type, row) => {
+	fetchThirdlist = (type, row,tempSortTree) => {
 		const response = filterThirdPannel();
 		response.then(json => {
 			if (json.code == 0) {
@@ -895,7 +906,8 @@ export default class DeductionTypeDocPage extends PureComponent {
 					}
 				});
 				this.setState({
-					dataList: tempDataAll,
+                    dataList: tempDataAll,
+                    sortStateTree:tempSortTree
 				});
 			}
 		});
