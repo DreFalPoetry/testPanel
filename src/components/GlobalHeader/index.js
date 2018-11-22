@@ -116,7 +116,7 @@ export default class GlobalHeader extends PureComponent {
                     {/* 设置router链接 */}
                     <Link to="/">
                         {logoDisplay('24', 'white')}
-                        <span style={{color:'white'}}>Test</span>
+                        <span style={{color:'white',float:'right',marginTop:'-3px',marginLeft:'5px'}}>Test</span>
                     </Link>
                 </div>
                 {/* {menu} */}
