@@ -98,7 +98,7 @@ export default class DeductionTypeDocPage extends PureComponent {
 				{ type: 4, label: 'Sp.', selected: false },
             ],
             checkedOptions:['1','2','3'],
-            defaultRadioOpt:1,
+            defaultRadioOpt:0,
             start_date: getTimeDistance('month')[0].format('YYYY-MM-DD'),
             end_date: getTimeDistance('month')[1].format('YYYY-MM-DD'),
             rangePickerShow:false,
@@ -110,6 +110,7 @@ export default class DeductionTypeDocPage extends PureComponent {
             currentSort:null,
             sortStateTree:{},
             leftFixedColWidth:520,
+            timeDimensionChanged:false,
             initalColumns:[
                 {
                     title: () => {
@@ -1095,6 +1096,9 @@ export default class DeductionTypeDocPage extends PureComponent {
     
 
     changeCheckOpts = (type,checkedValues) => {
+        this.setState({
+            timeDimensionChanged:true
+        })
         if(type == 1){
             this.setState({
                 checkedOptions:checkedValues
@@ -1142,20 +1146,25 @@ export default class DeductionTypeDocPage extends PureComponent {
         console.log(this.state.defaultRadioOpt);//依照哪个时间维度来排序
         console.log(this.state.checkedOptions);//选择了需要展示的时间维度
         this.setState({
-            popoverVisible:false
+            popoverVisible:false,
+            currentSort:null,
+            sortStateTree:{},
         },function(){
-            if(this.state.checkedOptions.length == 2){
-                this.fetchList(1,1)
-            }else if(this.state.checkedOptions.length == 1){
-                this.fetchList(1,2);
-            }else{
-                this.fetchList(1)
+            if(this.state.timeDimensionChanged){
+                if(this.state.checkedOptions.length == 2){
+                    this.fetchList(1,1)
+                }else if(this.state.checkedOptions.length == 1){
+                    this.fetchList(1,2);
+                }else{
+                    this.fetchList(1)
+                }
             }
         })
     }
 
     popoverVisibleChange = (visible) => {
         this.setState({
+            timeDimensionChanged:false,
             popoverVisible:visible 
         });
     }
@@ -1219,11 +1228,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                 </div>
                 <div style={{width:30,float:'left'}}>
                     <RadioGroup onChange={this.selectDefaultRadioOpt} value={this.state.defaultRadioOpt}>
+                        <Radio style={radioStyle} value={0}></Radio>
                         <Radio style={radioStyle} value={1}></Radio>
                         <Radio style={radioStyle} value={2}></Radio>
                         <Radio style={radioStyle} value={3}></Radio>
                         <Radio style={radioStyle} value={4}></Radio>
-                        <Radio style={radioStyle} value={5}></Radio>
                     </RadioGroup>
                 </div>
                 {
