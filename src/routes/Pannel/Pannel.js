@@ -334,7 +334,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        if (index == 1) {
+                                        if (index == this.state.defaultRadioOpt) {
                                             return (
                                                 <p className={styles.sortStyle} key={String(record.id) + item + index}>
                                                     {item}
@@ -398,7 +398,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        if (index == 1) {
+                                        if (index == this.state.defaultRadioOpt) {
                                             return (
                                                 <p className={styles.sortStyle} key={String(record.id) + item + index}>
                                                     {item}
@@ -462,7 +462,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        if (index == 1) {
+                                        if (index == this.state.defaultRadioOpt) {
                                             return (
                                                 <p className={styles.sortStyle} key={String(record.id) +item + index}>
                                                     {item}
@@ -526,7 +526,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        if (index == 1) {
+                                        if (index == this.state.defaultRadioOpt) {
                                             return (
                                                 <p className={styles.sortStyle} key={String(record.id) +item + index}>
                                                     {item}
@@ -590,7 +590,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        if (index == 1) {
+                                        if (index == this.state.defaultRadioOpt) {
                                             return (
                                                 <p className={styles.sortStyle} key={String(record.id) +item + index}>
                                                     {item}
@@ -654,7 +654,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <span className={styles.imitateWrapper}>
                                     {text.map((item, index) => {
-                                        if (index == 1) {
+                                        if (index == this.state.defaultRadioOpt) {
                                             return (
                                                 <p className={styles.sortStyle} key={String(record.id) + item + index}>
                                                     {item}
