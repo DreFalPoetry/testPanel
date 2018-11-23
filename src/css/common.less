@@ -7,6 +7,7 @@
 
 .pannelHeader {
     // width: 450px;
+    display: flex;
     overflow: hidden;
 	a {
 		margin-right: 5px;
@@ -14,31 +15,32 @@
 }
 .pannelOperate{
     float: left;
+    white-space: nowrap;
     margin-top: 5px;
 }
 .headImgAllWrapper{
     float: left;
     // width: 250px;
     overflow: hidden;
-    display: table;
+    display: flex;
     img{
         margin-top: 5px;
-        display: table-cell;
+        // display: table-cell;
         vertical-align: middle;
     }
     .headTitleWrapper{
-        display: table-cell;
+        flex: 1;
         vertical-align: middle;
-        max-width: 200px;
         span{
-            display: inline-block;
             white-space:nowrap;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
     .headTitleWrapperTwo{
-        display: table-cell;
+        flex: 1;
         vertical-align: middle;
-        max-width: 200px;
         overflow: hidden;
         padding-top: 2px;
         white-space:nowrap;

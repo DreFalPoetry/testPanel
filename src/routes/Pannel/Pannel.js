@@ -103,12 +103,13 @@ export default class DeductionTypeDocPage extends PureComponent {
             end_date: getTimeDistance('month')[1].format('YYYY-MM-DD'),
             rangePickerShow:false,
             popoverVisible:false,
-            allCheckTableColsToShow:['1','2'],
+            allCheckTableColsToShow:['1','2','3','4','5','6','7'],
             columnPopoverVisible:false,
             columns:[],
             tableLoading:false,
             currentSort:null,
             sortStateTree:{},
+            leftFixedColWidth:520,
             initalColumns:[
                 {
                     title: () => {
@@ -184,7 +185,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                                 </div>
                                 <div  className={styles.headImgAllWrapper}>
                                     <img style={row[0].length && row[0].length>1?{width:30,height:30}:{width:15,height:15}} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
-                                    <div className={row[0].length && row[0].length>1?styles.headTitleWrapper:styles.headTitleWrapperTwo}>   
+                                    <div style={{width:this.state.leftFixedColWidth - 140}} className={row[0].length && row[0].length>1?styles.headTitleWrapper:styles.headTitleWrapperTwo}>   
                                         <span>{`${value}-${row.name}`}</span>
                                         <span>{`${row.startDate}-${row.endDate}`}</span>
                                     </div>
@@ -205,7 +206,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                             return (
                                 <div>
                                     <span className={styles.imitateWrapper}>
-                                        <div style={{ display: 'inline-block' }}>{subText}</div>
+                                        <div>{subText}</div>
                                         <Popover content={content} trigger="click">
                                             <Icon type="filter" style={{ cursor: 'pointer' }} className={styles.filterIconsDisplay}/>
                                         </Popover>
@@ -215,7 +216,7 @@ export default class DeductionTypeDocPage extends PureComponent {
                         } else {
                             return (
                                 <span className={styles.imitateWrapper}>
-                                    <div style={{ display: 'inline-block' }}>{subText}</div>
+                                    <div>{subText}</div>
                                 </span>
                             );
                         }
@@ -1180,6 +1181,11 @@ export default class DeductionTypeDocPage extends PureComponent {
     };
 
     handleResize = index => (e, { size }) => {
+        if(index == 0 && size.width>=400){
+            this.setState({
+                leftFixedColWidth:size.width
+            })
+        }
         this.setState(({ columns }) => {
           const nextColumns = [...columns];
           nextColumns[index] = {

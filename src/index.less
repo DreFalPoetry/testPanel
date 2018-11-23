@@ -37,11 +37,27 @@ body {
 :global{
     .ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr > td{
         padding: 0px!important;
+        min-width: 80px;
+        &:first-child{
+            min-width: 400px;
+        }
     }
     .ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-tbody > tr > td{
         padding: 0px!important;
     }
     .ant-table-small > .ant-table-content > .ant-table-fixed-right > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-tbody > tr > td{
         padding: 0px!important;
+    }
+    .ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-header > table > .ant-table-thead > tr > th{
+        min-width: 80px;
+    }
+    .ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-header > table > .ant-table-thead >tr > th:first-child{
+            min-width: 400px;
+    }
+    .ant-table.ant-table-scroll-position-left .ant-table-fixed-left{
+        min-width: 400px;
+        .ant-table-fixed{
+            min-width: 400px;
+        }
     }
 }
