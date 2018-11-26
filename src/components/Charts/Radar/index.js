@@ -163,9 +163,7 @@ export default class Radar extends Component {
 										<span
 											className={styles.dot}
 											style={{
-												backgroundColor: !item.checked
-													? '#aaa'
-													: item.color,
+												backgroundColor: !item.checked ? '#aaa' : item.color,
 											}}
 										/>
 										<span>{item.name}</span>

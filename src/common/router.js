@@ -36,9 +36,7 @@ const dynamicWrapper = (app, models, component) => {
 	return dynamic({
 		app,
 		models: () =>
-			models
-				.filter(model => modelNotExisted(app, model))
-				.map(m => import(`../models/${m}.js`)),
+			models.filter(model => modelNotExisted(app, model)).map(m => import(`../models/${m}.js`)),
 		// add routerData prop
 		component: () => {
 			if (!routerDataCache) {
@@ -73,9 +71,7 @@ export const getRouterData = app => {
 	//配置动态路由
 	const routerConfig = {
 		'/': {
-			component: dynamicWrapper(app, ['user', 'login'], () =>
-				import('../layouts/BasicLayout')
-			),
+			component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
 		},
 		'/pannel': {
 			component: dynamicWrapper(app, [], () => import('../routes/Pannel/Pannel')),

@@ -26,11 +26,7 @@ export default class EditableItem extends PureComponent {
 			<div className={styles.editableItem}>
 				{editable ? (
 					<div className={styles.wrapper}>
-						<Input
-							value={value}
-							onChange={this.handleChange}
-							onPressEnter={this.check}
-						/>
+						<Input value={value} onChange={this.handleChange} onPressEnter={this.check} />
 						<Icon type="check" className={styles.icon} onClick={this.check} />
 					</div>
 				) : (

@@ -90,11 +90,7 @@ class TagSelect extends Component {
 		});
 		return (
 			<div className={cls} style={style}>
-				<CheckableTag
-					checked={checkedAll}
-					key="tag-select-__all__"
-					onChange={this.onSelectAll}
-				>
+				<CheckableTag checked={checkedAll} key="tag-select-__all__" onChange={this.onSelectAll}>
 					全部
 				</CheckableTag>
 				{value &&

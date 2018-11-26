@@ -74,19 +74,8 @@ export default class Gauge extends React.Component {
 		};
 		const data = [{ value: percent / 10 }];
 		return (
-			<Chart
-				height={height}
-				data={data}
-				scale={cols}
-				padding={[-16, 0, 16, 0]}
-				forceFit={forceFit}
-			>
-				<Coord
-					type="polar"
-					startAngle={-1.25 * Math.PI}
-					endAngle={0.25 * Math.PI}
-					radius={0.8}
-				/>
+			<Chart height={height} data={data} scale={cols} padding={[-16, 0, 16, 0]} forceFit={forceFit}>
+				<Coord type="polar" startAngle={-1.25 * Math.PI} endAngle={0.25 * Math.PI} radius={0.8} />
 				<Axis name="1" line={null} />
 				<Axis
 					line={null}
