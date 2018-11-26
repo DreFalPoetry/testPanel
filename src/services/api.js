@@ -150,11 +150,11 @@ export async function queryBilling(params) {
 }
 
 export async function queryPannel(type) {
-    if(!type){
-	    return requestMock(`/pannel/list`);
-    }else{
-        return requestMock(`/pannel/list`+type); 
-    }
+	if (!type) {
+		return requestMock(`/pannel/list`);
+	} else {
+		return requestMock(`/pannel/list` + type);
+	}
 }
 
 export async function filterFirstPannel() {

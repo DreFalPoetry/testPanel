@@ -63,10 +63,7 @@ export default class HeaderSearch extends PureComponent {
 			[styles.show]: this.state.searchMode,
 		});
 		return (
-			<span
-				className={classNames(className, styles.headerSearch)}
-				onClick={this.enterSearchMode}
-			>
+			<span className={classNames(className, styles.headerSearch)} onClick={this.enterSearchMode}>
 				<Icon type="search" key="Icon" />
 				<AutoComplete
 					key="AutoComplete"

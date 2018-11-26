@@ -6,6 +6,11 @@ const menuData = [
 		icon: 'tags',
 		path: 'pannel',
 	},
+	{
+		name: 'Test',
+		icon: 'tags',
+		path: 'test',
+	},
 ];
 
 function formatter(data, parentPath = '/', parentAuthority) {
@@ -20,11 +25,7 @@ function formatter(data, parentPath = '/', parentAuthority) {
 			authority: item.authority || parentAuthority,
 		};
 		if (item.children) {
-			result.children = formatter(
-				item.children,
-				`${parentPath}${item.path}/`,
-				item.authority
-			);
+			result.children = formatter(item.children, `${parentPath}${item.path}/`, item.authority);
 		}
 		return result;
 	});

@@ -222,9 +222,7 @@ export default class Pie extends Component {
 								{subTitle && <h4 className="pie-sub-title">{subTitle}</h4>}
 								{/* eslint-disable-next-line */}
 								{total && (
-									<div className="pie-stat">
-										{typeof total === 'function' ? total() : total}
-									</div>
+									<div className="pie-stat">{typeof total === 'function' ? total() : total}</div>
 								)}
 							</div>
 						)}
@@ -244,13 +242,9 @@ export default class Pie extends Component {
 								<span className={styles.legendTitle}>{item.x}</span>
 								<Divider type="vertical" />
 								<span className={styles.percent}>
-									{`${(isNaN(item.percent) ? 0 : item.percent * 100).toFixed(
-										2
-									)}%`}
+									{`${(isNaN(item.percent) ? 0 : item.percent * 100).toFixed(2)}%`}
 								</span>
-								<span className={styles.value}>
-									{valueFormat ? valueFormat(item.y) : item.y}
-								</span>
+								<span className={styles.value}>{valueFormat ? valueFormat(item.y) : item.y}</span>
 							</li>
 						))}
 					</ul>

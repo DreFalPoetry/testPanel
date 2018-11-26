@@ -40,9 +40,8 @@ export default {
 			// callbackStatus successfully
 			const finallResult = callbackDeal(response);
 			if (finallResult == 'successCallBack') {
-				const userinfo =  {};
-				userinfo.avatar =
-					'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
+				const userinfo = {};
+				userinfo.avatar = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
 				sessionStorage.setItem('loginUserInfo', JSON.stringify(userinfo));
 				yield put({
 					type: 'asyncUserInfo',

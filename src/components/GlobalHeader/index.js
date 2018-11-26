@@ -8,7 +8,7 @@ import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 import { connect } from 'dva';
-import {logoDisplay} from '../../utils/logoDisplay';
+import { logoDisplay } from '../../utils/logoDisplay';
 
 @connect(({ report }) => ({
 	report,
@@ -92,7 +92,7 @@ export default class GlobalHeader extends PureComponent {
 			onNoticeClear,
 			login,
 			report,
-        } = this.props;
+		} = this.props;
 		const menu = (
 			<Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
 				{/* <Menu.Item disabled>
@@ -112,14 +112,38 @@ export default class GlobalHeader extends PureComponent {
 		);
 		return (
 			<div className={styles.header}>
-                <div className={styles.logo} key="logo">
-                    {/* 设置router链接 */}
-                    <Link to="/">
-                        {logoDisplay('24', 'white')}
-                        <span style={{color:'white'}}>Test</span>
-                    </Link>
-                </div>
-                {/* {menu} */}
+				<div className={styles.logo} key="logo">
+					{/* 设置router链接 */}
+					<Link to="/">
+						{logoDisplay('24', 'white')}
+						<span
+							style={{
+								color: 'white',
+								float: 'right',
+								marginTop: '-3px',
+								marginLeft: '5px',
+							}}
+						>
+							Test
+						</span>
+					</Link>
+				</div>
+				<div className={styles.right}>
+					<Dropdown overlay={menu}>
+						<span className={`${styles.action} ${styles.account}`}>
+							<Icon
+								type="user"
+								style={{
+									color: 'white',
+									marginRight: '5px',
+									marginTop: '-5px',
+									fontSize: '16px',
+								}}
+							/>
+							<span className={styles.name}>{'test' + '-' + 'admin'}</span>
+						</span>
+					</Dropdown>
+				</div>
 			</div>
 		);
 	}

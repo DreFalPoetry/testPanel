@@ -199,13 +199,7 @@ export default class Register extends Component {
 										validator: this.checkPassword,
 									},
 								],
-							})(
-								<Input
-									size="large"
-									type="password"
-									placeholder="至少6位密码，区分大小写"
-								/>
-							)}
+							})(<Input size="large" type="password" placeholder="至少6位密码，区分大小写" />)}
 						</Popover>
 					</FormItem>
 					<FormItem>
@@ -243,13 +237,7 @@ export default class Register extends Component {
 										message: '手机号格式错误！',
 									},
 								],
-							})(
-								<Input
-									size="large"
-									style={{ width: '80%' }}
-									placeholder="11位手机号"
-								/>
-							)}
+							})(<Input size="large" style={{ width: '80%' }} placeholder="11位手机号" />)}
 						</InputGroup>
 					</FormItem>
 					<FormItem>

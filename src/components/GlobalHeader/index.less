@@ -1,12 +1,15 @@
 @import '~antd/lib/style/themes/default.less';
 
 .header {
+	width: 100%;
 	height: 64px;
 	padding: 0 12px 0 0;
 	// background: #fff;
 	box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-    position: relative;
-    float: left;
+	position: relative;
+	float: left;
+	position: absolute;
+	z-index: 99;
 }
 
 :global {
@@ -31,6 +34,7 @@
 }
 
 .menu {
+	float: right;
 	:global(.anticon) {
 		margin-right: 8px;
 	}
@@ -60,6 +64,7 @@ i.trigger {
 		display: inline-block;
 		transition: all 0.3s;
 		height: 100%;
+		color: #fff;
 		> i {
 			font-size: 16px;
 			vertical-align: middle;
@@ -67,7 +72,7 @@ i.trigger {
 		}
 		&:hover,
 		&:global(.ant-popover-open) {
-			background: @primary-1;
+			background: #062949;
 		}
 	}
 	.search {

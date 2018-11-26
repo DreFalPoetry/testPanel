@@ -85,8 +85,7 @@ class StandardTable extends PureComponent {
 					<Alert
 						message={
 							<Fragment>
-								已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a>{' '}
-								项&nbsp;&nbsp;
+								已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
 								{needTotalList.map(item => (
 									<span style={{ marginLeft: 8 }} key={item.dataIndex}>
 										{item.title}总计&nbsp;

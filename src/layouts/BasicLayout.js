@@ -171,9 +171,10 @@ class BasicLayout extends React.PureComponent {
 		}
 		//点击退出登录menu
 		if (key === 'logout') {
-			this.props.dispatch({
-				type: 'login/logout',
-			});
+			this.props.dispatch(routerRedux.push('/user/login'));
+			// this.props.dispatch({
+			// 	type: 'login/logout',
+			// });
 		}
 	};
 	handleNoticeVisibleChange = visible => {
@@ -205,34 +206,34 @@ class BasicLayout extends React.PureComponent {
 		const bashRedirect = this.getBashRedirect();
 		const layout = (
 			<Layout>
-                <Header style={{ padding: 0 }}>
-						<GlobalHeader
-							logo={logo}
-							login={login}
-							currentUser={currentUser}
-							fetchingNotices={fetchingNotices}
-							notices={notices}
-							collapsed={collapsed}
-							isMobile={this.state.isMobile}
-							onNoticeClear={this.handleNoticeClear}
-							onCollapse={this.handleMenuCollapse}
-							onMenuClick={this.handleMenuClick}
-							onNoticeVisibleChange={this.handleNoticeVisibleChange}
-							changePath={this.redirectToDetail}
-						/>
-                        <SiderMenu
-                            logo={logo}
-                            // 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
-                            // If you do not have the Authorized parameter
-                            // you will be forced to jump to the 403 interface without permission
-                            Authorized={Authorized}
-                            menuData={getMenuData()}
-                            collapsed={collapsed}
-                            location={location}
-                            isMobile={this.state.isMobile}
-                            onCollapse={this.handleMenuCollapse}
-                        />
-                </Header>
+				<Header style={{ padding: 0 }}>
+					<GlobalHeader
+						logo={logo}
+						login={login}
+						currentUser={currentUser}
+						fetchingNotices={fetchingNotices}
+						notices={notices}
+						collapsed={collapsed}
+						isMobile={this.state.isMobile}
+						onNoticeClear={this.handleNoticeClear}
+						onCollapse={this.handleMenuCollapse}
+						onMenuClick={this.handleMenuClick}
+						onNoticeVisibleChange={this.handleNoticeVisibleChange}
+						changePath={this.redirectToDetail}
+					/>
+					<SiderMenu
+						logo={logo}
+						// 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
+						// If you do not have the Authorized parameter
+						// you will be forced to jump to the 403 interface without permission
+						Authorized={Authorized}
+						menuData={getMenuData()}
+						collapsed={collapsed}
+						location={location}
+						isMobile={this.state.isMobile}
+						onCollapse={this.handleMenuCollapse}
+					/>
+				</Header>
 				<Layout>
 					<Content style={{ margin: '24px 24px', height: '100%' }}>
 						<Switch>
