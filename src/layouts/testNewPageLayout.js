@@ -180,14 +180,7 @@ class BasicLayout extends React.PureComponent {
 		}
 	};
 	render() {
-		const {
-			currentUser,
-			collapsed,
-			notices,
-			routerData,
-			match,
-			location,
-		} = this.props;
+		const { currentUser, collapsed, notices, routerData, match, location } = this.props;
 		const bashRedirect = this.getBashRedirect();
 		const layout = (
 			<Layout>
@@ -201,7 +194,7 @@ class BasicLayout extends React.PureComponent {
 					collapsed={collapsed}
 					location={location}
 					isMobile={this.state.isMobile}
-                    onCollapse={this.handleMenuCollapse}
+					onCollapse={this.handleMenuCollapse}
 				/>
 				<Layout>
 					<Header style={{ padding: 0 }}>

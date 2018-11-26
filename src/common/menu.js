@@ -5,8 +5,8 @@ const menuData = [
 		name: 'Pannel',
 		icon: 'tags',
 		path: 'pannel',
-    },
-    {
+	},
+	{
 		name: 'Test',
 		icon: 'tags',
 		path: 'test',
@@ -14,7 +14,6 @@ const menuData = [
 ];
 
 function formatter(data, parentPath = '/', parentAuthority) {
-    
 	return data.map(item => {
 		let { path } = item;
 		if (!isUrl(path)) {

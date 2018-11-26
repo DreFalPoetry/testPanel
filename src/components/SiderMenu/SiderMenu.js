@@ -205,17 +205,24 @@ export default class SiderMenu extends PureComponent {
 			selectedKeys = [openKeys[openKeys.length - 1]];
 		}
 		return (
-				<Menu
-					key="Menu"
-					theme="dark"
-					mode="horizontal"
-					// {...menuProps}
-					onOpenChange={this.handleOpenChange}
-					selectedKeys={selectedKeys}
-					style={{ height:'64px',lineHeight:'64px',width: '80%',marginLeft:'120px',position:'absolute',zIndex:199}}
-				>
-					{this.getNavMenuItems(this.menus)}
-				</Menu>
+			<Menu
+				key="Menu"
+				theme="dark"
+				mode="horizontal"
+				// {...menuProps}
+				onOpenChange={this.handleOpenChange}
+				selectedKeys={selectedKeys}
+				style={{
+					height: '64px',
+					lineHeight: '64px',
+					width: '80%',
+					marginLeft: '120px',
+					position: 'absolute',
+					zIndex: 199,
+				}}
+			>
+				{this.getNavMenuItems(this.menus)}
+			</Menu>
 		);
 	}
 }
