@@ -119,7 +119,24 @@ export default class GlobalHeader extends PureComponent {
                         <span style={{color:'white',float:'right',marginTop:'-3px',marginLeft:'5px'}}>Test</span>
                     </Link>
                 </div>
-                {/* {menu} */}
+                <div className={styles.right}>
+                    <Dropdown overlay={menu}>
+                        <span className={`${styles.action} ${styles.account}`}>
+                            <Icon
+                                type="user"
+                                style={{
+                                    color: 'white',
+                                    marginRight: '5px',
+                                    marginTop: '-5px',
+                                    fontSize: '16px',
+                                }}
+                            />
+                            <span className={styles.name}>
+                                {'test' + '-' + 'admin'}
+                            </span>
+                        </span>
+                    </Dropdown>
+                </div>
 			</div>
 		);
 	}
