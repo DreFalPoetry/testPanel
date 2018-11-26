@@ -245,19 +245,22 @@ export default class DeductionTypeDocPage extends PureComponent {
                 },
                 {
                     title: ()=>(
-                        <span>
+                        <span 
+                            style={{display:'block'}} 
+                            onClick={this.clickToSort.bind(this,1, null,this.state.currentSort == '1asc'?'1desc':'1asc',this.state.currentSort == '1asc'?2:1)}
+                        >
                             Count
                             <span className={styles.sortRadiosDisplay}>
                                 <Icon 
                                     type="caret-up" 
                                     style={{cursor:'pointer'}} 
-                                    onClick={this.clickToSort.bind(this,1, null,'1asc',1)}
+                                    // onClick={this.clickToSort.bind(this,1, null,'1asc',1)}
                                     className={this.state.currentSort == '1asc'?styles.currentSort:null}
                                 />
                                 <Icon 
                                     type="caret-down" 
                                     style={{cursor:'pointer'}} 
-                                    onClick={this.clickToSort.bind(this,1, null,'1desc',2)}
+                                    // onClick={this.clickToSort.bind(this,1, null,'1desc',2)}
                                     className={this.state.currentSort == '1desc'?styles.currentSort:null}
                                 />
                             </span>
@@ -272,19 +275,23 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {//为排序的时间维度的话添加排序标志
                                             return (
-                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
+                                                <p 
+                                                    className={styles.sortStyle} 
+                                                    key={String(record.id) + item + index}
+                                                    onClick={this.clickToSort.bind(this,1, record,record.uniqueKey,this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][1] == 1?2:1)}
+                                                >
                                                     {item}
                                                     <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,1, record,record.uniqueKey,1)}
+                                                        // onClick={this.clickToSort.bind(this,1, record,record.uniqueKey,1)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][1] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,1, record,record.uniqueKey,2)}
+                                                        // onClick={this.clickToSort.bind(this,1, record,record.uniqueKey,2)}
                                                         className={this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][1] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
@@ -309,19 +316,22 @@ export default class DeductionTypeDocPage extends PureComponent {
                 },
                 {
                     title:()=>(
-                        <span>
+                        <span
+                            style={{display:'block'}} 
+                            onClick={this.clickToSort.bind(this,2, null,this.state.currentSort == '2asc'?'2desc':'2asc',this.state.currentSort == '2asc'?2:1)}
+                        >
                             Conv
                             <span className={styles.sortRadiosDisplay}>
                             <Icon 
                                 type="caret-up" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,2, null,'2asc',1)}
+                                // onClick={this.clickToSort.bind(this,2, null,'2asc',1)}
                                 className={this.state.currentSort == '2asc'?styles.currentSort:null}
                             />
                             <Icon 
                                 type="caret-down" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,2, null,'2desc',2)}
+                                // onClick={this.clickToSort.bind(this,2, null,'2desc',2)}
                                 className={this.state.currentSort == '2desc'?styles.currentSort:null}
                             />
                             </span>
@@ -336,19 +346,23 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {
                                             return (
-                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
+                                                <p 
+                                                    className={styles.sortStyle} 
+                                                    key={String(record.id) + item + index}
+                                                    onClick={this.clickToSort.bind(this,2, record,record.uniqueKey,this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][2] == 1?2:1)}
+                                                >
                                                     {item}
                                                     <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,2, record,record.uniqueKey,1)}
+                                                        // onClick={this.clickToSort.bind(this,2, record,record.uniqueKey,1)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][2] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,2, record,record.uniqueKey,2)}
+                                                        // onClick={this.clickToSort.bind(this,2, record,record.uniqueKey,2)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][2] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
@@ -373,19 +387,22 @@ export default class DeductionTypeDocPage extends PureComponent {
                 },
                 {
                     title: ()=>(
-                        <span>
+                        <span
+                            style={{display:'block'}} 
+                            onClick={this.clickToSort.bind(this,3, null,this.state.currentSort == '3asc'?'3desc':'3asc',this.state.currentSort == '3asc'?2:1)}
+                        >
                             Delivered
                             <span className={styles.sortRadiosDisplay}>
                             <Icon 
                                 type="caret-up" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,3, null,'3asc',1)}
+                                // onClick={this.clickToSort.bind(this,3, null,'3asc',1)}
                                 className={this.state.currentSort == '3asc'?styles.currentSort:null}
                             />
                             <Icon 
                                 type="caret-down" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,3, null,'3desc',2)}
+                                // onClick={this.clickToSort.bind(this,3, null,'3desc',2)}
                                 className={this.state.currentSort == '3desc'?styles.currentSort:null}
                             />
                             </span>
@@ -400,19 +417,23 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {
                                             return (
-                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
+                                                <p 
+                                                    className={styles.sortStyle} 
+                                                    key={String(record.id) + item + index}
+                                                    onClick={this.clickToSort.bind(this,3, record,record.uniqueKey,this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][3] == 1?2:1)}    
+                                                >
                                                     {item}
                                                     <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,3, record,record.uniqueKey,1)}
+                                                        // onClick={this.clickToSort.bind(this,3, record,record.uniqueKey,1)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][3] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,3, record,record.uniqueKey,2)}
+                                                        // onClick={this.clickToSort.bind(this,3, record,record.uniqueKey,2)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][3] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
@@ -437,19 +458,22 @@ export default class DeductionTypeDocPage extends PureComponent {
                 },
                 {
                     title: ()=>(
-                        <span>
+                        <span
+                            style={{display:'block'}} 
+                            onClick={this.clickToSort.bind(this,4, null,this.state.currentSort == '4asc'?'4desc':'4asc',this.state.currentSort == '4asc'?2:1)}
+                        >
                             Fraud
                             <span className={styles.sortRadiosDisplay}>
                             <Icon 
                                 type="caret-up" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,4, null,'4asc',1)}
+                                // onClick={this.clickToSort.bind(this,4, null,'4asc',1)}
                                 className={this.state.currentSort == '4asc'?styles.currentSort:null}
                             />
                             <Icon 
                                 type="caret-down" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,4, null,'4desc',2)}
+                                // onClick={this.clickToSort.bind(this,4, null,'4desc',2)}
                                 className={this.state.currentSort == '4desc'?styles.currentSort:null}
                             />
                             </span>
@@ -464,19 +488,23 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {
                                             return (
-                                                <p className={styles.sortStyle} key={String(record.id) +item + index}>
+                                                <p 
+                                                    className={styles.sortStyle} 
+                                                    key={String(record.id) +item + index}
+                                                    onClick={this.clickToSort.bind(this,4, record,record.uniqueKey,this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][4] == 1?2:1)}
+                                                >
                                                     {item}
                                                     <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,4, record,record.uniqueKey,1)}
+                                                        // onClick={this.clickToSort.bind(this,4, record,record.uniqueKey,1)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][4] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,4, record,record.uniqueKey,2)}
+                                                        // onClick={this.clickToSort.bind(this,4, record,record.uniqueKey,2)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][4] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
@@ -501,19 +529,22 @@ export default class DeductionTypeDocPage extends PureComponent {
                 },
                 {
                     title: ()=>(
-                        <span>
+                        <span
+                            style={{display:'block'}} 
+                            onClick={this.clickToSort.bind(this,5, null,this.state.currentSort == '5asc'?'5desc':'5asc',this.state.currentSort == '5asc'?2:1)}
+                        >
                             Kpi
                             <span className={styles.sortRadiosDisplay}>
                             <Icon 
                                 type="caret-up" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,5, null,'5asc',1)}
+                                // onClick={this.clickToSort.bind(this,5, null,'5asc',1)}
                                 className={this.state.currentSort == '5asc'?styles.currentSort:null}
                             />
                             <Icon 
                                 type="caret-down" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,5, null,'5desc',2)}
+                                // onClick={this.clickToSort.bind(this,5, null,'5desc',2)}
                                 className={this.state.currentSort == '5desc'?styles.currentSort:null}
                             />
                             </span>
@@ -528,7 +559,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {
                                             return (
-                                                <p className={styles.sortStyle} key={String(record.id) +item + index}>
+                                                <p 
+                                                    className={styles.sortStyle} 
+                                                    key={String(record.id) +item + index}
+                                                    onClick={this.clickToSort.bind(this,5, record,record.uniqueKey,this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][5] == 1?2:1)}
+                                                >
                                                     {item}
                                                     <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
@@ -565,19 +600,22 @@ export default class DeductionTypeDocPage extends PureComponent {
                 },
                 {
                     title: ()=>(
-                        <span>
+                        <span
+                            style={{display:'block'}} 
+                            onClick={this.clickToSort.bind(this,6, null,this.state.currentSort == '6asc'?'6desc':'6asc',this.state.currentSort == '6asc'?2:1)}
+                        >
                             Clicks
                             <span className={styles.sortRadiosDisplay}>
                             <Icon 
                                 type="caret-up" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,6, null,'6asc',1)}
+                                // onClick={this.clickToSort.bind(this,6, null,'6asc',1)}
                                 className={this.state.currentSort == '6asc'?styles.currentSort:null}
                             />
                             <Icon 
                                 type="caret-down" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,6, null,'6desc',2)}
+                                // onClick={this.clickToSort.bind(this,6, null,'6desc',2)}
                                 className={this.state.currentSort == '6desc'?styles.currentSort:null}
                             />
                             </span>
@@ -592,19 +630,23 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {
                                             return (
-                                                <p className={styles.sortStyle} key={String(record.id) +item + index}>
+                                                <p 
+                                                    className={styles.sortStyle} 
+                                                    key={String(record.id) +item + index}
+                                                    onClick={this.clickToSort.bind(this,6, record,record.uniqueKey,this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][6] == 1?2:1)}    
+                                                >
                                                     {item}
                                                     <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
                                                         type="caret-up" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,6, record,record.uniqueKey,1)}
+                                                        // onClick={this.clickToSort.bind(this,6, record,record.uniqueKey,1)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][6] == 1?styles.currentSort:null}
                                                     />
                                                     <Icon 
                                                         type="caret-down" 
                                                         style={{cursor:'pointer'}} 
-                                                        onClick={this.clickToSort.bind(this,6, record,record.uniqueKey,2)}
+                                                        // onClick={this.clickToSort.bind(this,6, record,record.uniqueKey,2)}
                                                         className={this.state.sortStateTree[record.uniqueKey] &&  this.state.sortStateTree[record.uniqueKey][6] == 2?styles.currentSort:null}
                                                     />
                                                     </span>
@@ -629,19 +671,22 @@ export default class DeductionTypeDocPage extends PureComponent {
                 },
                 {
                     title: ()=>(
-                        <span>
+                        <span
+                            style={{display:'block'}} 
+                            onClick={this.clickToSort.bind(this,7, null,this.state.currentSort == '7asc'?'7desc':'7asc',this.state.currentSort == '7asc'?2:1)}
+                        >
                             OutFlow
                             <span className={styles.sortRadiosDisplay}>
                             <Icon 
                                 type="caret-up" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,7, null,'7asc',1)}
+                                // onClick={this.clickToSort.bind(this,7, null,'7asc',1)}
                                 className={this.state.currentSort == '7asc'?styles.currentSort:null}
                             />
                             <Icon 
                                 type="caret-down" 
                                 style={{cursor:'pointer'}} 
-                                onClick={this.clickToSort.bind(this,7, null,'7desc',2)}
+                                // onClick={this.clickToSort.bind(this,7, null,'7desc',2)}
                                 className={this.state.currentSort == '7desc'?styles.currentSort:null}
                             />
                             </span>
@@ -656,7 +701,11 @@ export default class DeductionTypeDocPage extends PureComponent {
                                     {text.map((item, index) => {
                                         if (index == this.state.defaultRadioOpt) {
                                             return (
-                                                <p className={styles.sortStyle} key={String(record.id) + item + index}>
+                                                <p 
+                                                    className={styles.sortStyle} 
+                                                    key={String(record.id) + item + index}
+                                                    onClick={this.clickToSort.bind(this,7, record,record.uniqueKey,this.state.sortStateTree[record.uniqueKey] && this.state.sortStateTree[record.uniqueKey][7] == 1?2:1)}
+                                                >
                                                     {item}
                                                     <span className={styles.sortRadiosDisplay}>
                                                     <Icon 
